@@ -1,0 +1,109 @@
+{
+  "Users_Admin": [
+    {
+      "id": "1d11",
+      "Usuario": "Administrador_24",
+      "Contrasena": "Camion24"
+    }
+  ],
+  "Users_Trans": [
+    {
+      "Usuario": "TransportaSeguro",
+      "Contrasena": "SeguridadTrans",
+      "id": "dd9d"
+    }
+  ],
+  "Users_DCamion": [
+    {
+      "Usuario": "Propietariocm",
+      "Contrasena": "Dueñocamion24",
+      "id": "8836"
+    }
+  ],
+  "Cliente": [
+    {
+      "id": "24fe",
+      "Nombre": "valery zambrano",
+      "Teléfono": "3118482726",
+      "Correo": "valeryzambrano@gmail.com",
+      "NumeroDocumento": "1014667051",
+      "Usuario": "valery zambrano1014667051",
+      "Contraseña": "1014667051"
+    },
+    {
+      "id": "80d5",
+      "Nombre": "valery zambrano",
+      "Teléfono": "3118482726",
+      "Correo": "valeryzambrano@gmail.com",
+      "NumeroDocumento": "1014667051",
+      "Usuario": "valery zambrano1014667051",
+      "Contraseña": "1014667051"
+    },
+    {
+      "id": "1537",
+      "Nombre": "valery zambrano",
+      "Teléfono": "3118482726",
+      "Correo": "valeryzambrano@gmail.com",
+      "NumeroDocumento": "1014667051",
+      "Usuario": "valery zambrano1014667051",
+      "Contraseña": "1014667051"
+    }
+  ],
+  "Solicitudes": [
+    {
+      "id": "3194",
+      "Nombre": "valery zambrano",
+      "NumeroDocumento": "1014667051",
+      "Teléfono": "3118482726",
+      "Correo": "valeryzambrano@gmail.com"
+    }
+  ],
+  "ListaCam": [
+    {
+      "id": "d99f",
+      "Matricula": "MNC876",
+      "Capacidad": "15000",
+      "Gasolina": "0.45",
+      "CargaActual": 0
+    },
+    {
+      "id": "1c26",
+      "Matricula": "ABC123",
+      "Capacidad": "5000",
+      "Gasolina": "0.20",
+      "CargaActual": 0
+    },
+    {
+      "id": "9889",
+      "Matricula": "FGH456",
+      "Capacidad": "8000",
+      "Gasolina": "0.25",
+      "CargaActual": 0
+    },
+    {
+      "id": "f000",
+      "Matricula": "LMN987",
+      "Capacidad": "20000",
+      "Gasolina": "0.35",
+      "CargaActual": 0
+    },
+    {
+      "id": "cfa3",
+      "Matricula": "CBD543",
+      "Capacidad": "25000",
+      "Gasolina": "0.45",
+      "CargaActual": 0
+    }
+  ],
+  "AlquilarCam": [
+    
+  ],
+  "Mantenimiento": [
+    {
+      "id": "8fe7",
+      "fechaUltimoMantenimiento": "2024-08-08",
+      "tipoMantenimiento": "cambio de llantas",
+      "observaciones": "edsx"
+    }
+  ]
+}

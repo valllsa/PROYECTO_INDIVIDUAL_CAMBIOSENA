@@ -1,0 +1,81 @@
+/* styles.css */
+
+.navbar-custom {
+    background-color: #003366; /* Color de fondo de la navbar */
+  }
+  
+  .navbar-brand {
+    color: #ffffff; /* Color del texto de la marca */
+  }
+  
+  .nav-link {
+    color: #ffffff; /* Color del texto de los enlaces */
+  }
+  
+  .nav-link.active {
+    color: #ffcc00; /* Color del enlace activo */
+  }
+  
+  .btn-primary {
+    background-color: #003366; /* Color de fondo del botón */
+    border: none; /* Sin borde */
+  }
+  
+  .btn-primary:hover {
+    background-color: #002244; /* Color de fondo al pasar el ratón */
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  h1 {
+    color: #003366; /* Color del encabezado principal */
+  }
+  
+  h2 {
+    color: #003366; /* Color del subtítulo */
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  input[type="date"],
+  input[type="text"],
+  textarea,
+  input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #003366;
+    border-radius: 5px;
+  }
+  
+  textarea {
+    height: 100px; /* Altura del textarea */
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #003366; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de puntero al pasar el ratón */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+  }
+  
+  button:hover {
+    background-color: #002244; /* Color de fondo al pasar el ratón */
+  }
+  
+  button:active {
+    background-color: #001122; /* Color de fondo al hacer clic */
+  }
+  

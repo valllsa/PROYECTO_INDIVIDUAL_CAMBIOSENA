@@ -1,0 +1,235 @@
+/* Contenedores de login y registro */
+.login-container, .register-container {
+    width: 90%; 
+    max-width: 500px; 
+    margin: 10px auto; 
+    padding: 15px;
+    background-color: #f0f4f8; /* Fondo gris claro azulado */
+    border-radius: 8px;
+    border: 1px solid #003366; /* Borde azul oscuro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    box-sizing: border-box; 
+    transition: all 0.3s ease-in-out; 
+}
+
+@media (min-width: 768px) {
+    .login-container, .register-container {
+        width: 80%; 
+        padding: 25px;
+        margin: 20px auto; 
+        border-radius: 10px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+    }
+}
+
+@media (min-width: 1200px) {
+    .login-container, .register-container {
+        width: 60%; 
+        max-width: 600px; 
+        padding: 40px;
+        margin: 40px auto;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+    }
+}
+
+.login-container:hover, .register-container:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 25px; 
+    color: #003366; /* Encabezado azul oscuro */
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}
+
+input[type="text"], input[type="password"], input[type="number"] {
+    padding: 12px;
+    border: 1px solid #003366; /* Borde azul oscuro */
+    border-radius: 5px;
+    background-color: #e6f0ff; /* Fondo azul muy claro */
+    color: #003366; /* Color del texto azul oscuro */
+    font-size: 15px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="number"]:focus {
+    border-color: #001a33; /* Azul aún más oscuro al enfocar */
+    box-shadow: 0 0 6px rgba(0, 51, 102, 0.5); /* Sombra azul suave al enfocar */
+}
+
+button {
+    padding: 12px;
+    background-color: #003366; /* Azul oscuro */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    margin: 10px 0; 
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #001a33; /* Azul más oscuro al pasar el cursor */
+    transform: scale(1.03); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.register-link a {
+    color: #003366; /* Color del enlace azul oscuro */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    color: #001a33; /* Cambia el color al pasar el cursor a un azul más oscuro */
+    text-decoration: underline;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #e6f0ff; /* Fondo azul claro */
+    padding: 20px;
+    color: #003366; /* Color del texto azul oscuro */
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #003366; /* Azul oscuro para el título */
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+.container {
+    margin-bottom: 25px;
+    padding: 25px;
+    background-color: #f0f4f8; /* Fondo gris claro azulado */
+    border-radius: 10px;
+    border: 1px solid #003366; /* Borde azul oscuro */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.tabs button {
+    padding: 12px 25px;
+    background-color: #003366; /* Botón azul oscuro */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tabs button:hover {
+    background-color: #001a33; /* Botón azul más oscuro al pasar el cursor */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #e6f0ff; /* Fondo azul muy claro */
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #003366; /* Borde azul oscuro */
+}
+
+select, input[type="number"] {
+    padding: 10px;
+    border: 1px solid #003366; /* Borde azul oscuro */
+    border-radius: 5px;
+    background-color: #ffffff; /* Fondo blanco */
+    color: #003366; /* Color del texto azul oscuro */
+}
+
+input::placeholder {
+    color: #003366; /* Color del texto del placeholder azul oscuro */
+}
+
+.bienvenida-container {
+    width: 850px;
+    margin: 60px auto;
+    padding: 45px;
+    background-color: #f0f4f8; /* Fondo gris claro azulado */
+    border-radius: 10px;
+    border: 1px solid;
+    border-image: linear-gradient(to right, #003366, #00509e) 1; /* Borde con degradado azul */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+    text-align: center;
+}
+
+.bienvenida-imagen {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    border: 3px solid #003366; /* Borde azul oscuro */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bienvenida-container h1 {
+    color: #003366; /* Encabezado azul oscuro */
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); 
+}
+
+.bienvenida-container p {
+    color: #003366; /* Texto en azul oscuro */
+    margin-bottom: 30px;
+    font-size: 18px;
+    line-height: 1.5;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.bienvenida-button {
+    padding: 12px 25px;
+    background-color: #003366; /* Botón azul oscuro */
+    color: #fff;
+    border:#003366;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+    text-decoration: none;
+    font-size: 1em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.bienvenida-button:hover {
+    background-color: #dae7fa;/* Azul más oscuro al pasar el cursor */
+    transform: scale(1.04); 
+}
+
+.back-button {
+    background-color: transparent;
+    border-radius: 50px;
+    border: 1px solid #003366; /* Borde azul oscuro */
+    font-size: 16px;
+    cursor: pointer;
+    color: #003366; /* Texto azul oscuro */
+    margin-bottom: 7px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.back-button:hover {
+    text-decoration: underline; 
+}
