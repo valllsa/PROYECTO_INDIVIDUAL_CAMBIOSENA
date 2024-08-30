@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate} from 'react-router-dom';
-import '../VistaCliente/Estilos.css'; 
+import '../Estilos/estilos.css';
 import axios from 'axios';
 
 function LoginCliente() {
@@ -10,7 +10,7 @@ function LoginCliente() {
   });
   const navigate = useNavigate();
 
-  // Maneja el envío del formulario
+  
   const enviar = async (e) => {
     e.preventDefault();
 
@@ -19,7 +19,7 @@ function LoginCliente() {
       const response = await axios.get(`http://localhost:4000/Users_Trans?Usuario=${formData.Usuario}`);
       
       if (response.data.length > 0) {
-        // Buscar el usuario que coincida con el nombre de usuario proporcionado
+        
         const usuario = response.data.find(user => user.Usuario === formData.Usuario);
 
         if (usuario && usuario.Contrasena === formData.Contrasena) {
@@ -37,7 +37,7 @@ function LoginCliente() {
     }
   };
 
-  // Maneja los cambios en los campos del formulario
+ 
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -45,9 +45,8 @@ function LoginCliente() {
     });
   };
 
-  // Maneja la navegación a la página de bienvenida
   const goToWelcomePage = () => {
-    navigate('/PaginaBienvenida'); // Redirige a la página de bienvenida (ajusta la ruta según tu configuración)
+    navigate('/PaginaBienvenida'); 
   };
 
   return (

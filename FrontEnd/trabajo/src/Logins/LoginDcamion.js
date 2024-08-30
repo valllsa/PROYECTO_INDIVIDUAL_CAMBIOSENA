@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate} from 'react-router-dom';
-import '../VistaCliente/Estilos.css'; 
+import '../Estilos/estilos.css';
 import axios from 'axios';
 
 function LoginDCamion() {
@@ -10,7 +10,7 @@ function LoginDCamion() {
   });
   const navigate = useNavigate();
 
-  // Maneja el envío del formulario
+
   const enviar = async (e) => {
     e.preventDefault();
 
@@ -19,12 +19,11 @@ function LoginDCamion() {
       const response = await axios.get(`http://localhost:4000/Users_DCamion?Usuario=${formData.Usuario}`);
       
       if (response.data.length > 0) {
-        // Buscar el usuario que coincida con el nombre de usuario proporcionado
         const usuario = response.data.find(user => user.Usuario === formData.Usuario);
 
         if (usuario && usuario.Contrasena === formData.Contrasena) {
           alert("Éxito al iniciar sesión");
-          navigate('/MainDCamion');
+          navigate('/GestionarMantenimiento');
         } else {
           alert("Contraseña incorrecta");
         }
@@ -37,7 +36,6 @@ function LoginDCamion() {
     }
   };
 
-  // Maneja los cambios en los campos del formulario
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -45,9 +43,9 @@ function LoginDCamion() {
     });
   };
 
-  // Maneja la navegación a la página de bienvenida
+
   const goToWelcomePage = () => {
-    navigate('/PaginaBienvenida'); // Redirige a la página de bienvenida (ajusta la ruta según tu configuración)
+    navigate('/PaginaBienvenida'); 
   };
 
 

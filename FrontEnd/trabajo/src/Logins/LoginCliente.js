@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import '../VistaCliente/Estilos.css'; 
+import '../Estilos/estilos.css';
 import axios from 'axios';
 
 function LoginAdmin() {
@@ -10,7 +10,7 @@ function LoginAdmin() {
   });
   const navigate = useNavigate();
 
-  // Maneja el envío del formulario
+
   const enviar = async (e) => {
     e.preventDefault();
 
@@ -19,12 +19,12 @@ function LoginAdmin() {
       const response = await axios.get(`http://localhost:4000/Cliente?Usuario=${formData.Usuario}`);
       
       if (response.data.length > 0) {
-        // Buscar el usuario que coincida con el nombre de usuario proporcionado
+      
         const usuario = response.data.find(user => user.Usuario === formData.Usuario);
 
         if (usuario && usuario.Contrasena === formData.Contrasena) {
           alert("Éxito al iniciar sesión");
-          navigate('/MainCliente');
+          navigate('/BienvenidaCliente');
         } else {
           alert("Contraseña incorrecta");
         }
@@ -37,7 +37,7 @@ function LoginAdmin() {
     }
   };
 
-  // Maneja los cambios en los campos del formulario
+ 
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -45,9 +45,9 @@ function LoginAdmin() {
     });
   };
 
-  // Maneja la navegación a la página de bienvenida
+
   const goToWelcomePage = () => {
-    navigate('/PaginaBienvenida'); // Redirige a la página de bienvenida (ajusta la ruta según tu configuración)
+    navigate('/PaginaBienvenida'); 
   };
 
   return (
@@ -77,6 +77,7 @@ function LoginAdmin() {
         />
         <button type="submit">Ingresar</button>
       </form>
+      <br></br>
       <div className="register-link">
         <p>¿No tienes una cuenta? <Link to="/registroCliente">¡Regístrate aquí!</Link></p>
       </div>

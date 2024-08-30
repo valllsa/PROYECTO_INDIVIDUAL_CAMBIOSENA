@@ -1,20 +1,31 @@
-// src/App.js
+import PaginaBienvenida from './Logins/PaginaBienvenida'; 
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import LoginCliente from './Logins/LoginCliente';
 import RegistroCliente from './Logins/RegistroCliente';
-import LoginAdmin from './Logins/LoginAdmin';
-import LoginTrans from './Logins/LoginTrans';
-import LoginDcamion from './Logins/LoginDcamion';
-import PaginaBienvenida from './Logins/PaginaBienvenida'; 
-import Solicitudes from './VistaAdmin/solicitudes';
+import BienvenidaCliente from './VistaCliente/BienvenidaCliente';
 import MainCliente from './VistaCliente/MainCliente';
+import CancelarSer from './VistaCliente/CancelarSer';
+
+
+import LoginAdmin from './Logins/LoginAdmin';
 import BienvenidaAdmin from './VistaAdmin/BienvenidaAdmin';
 import MainAdmin from './VistaAdmin/MainAdmin';
+import Solicitudes from './VistaAdmin/solicitudes';
+
+import LoginTrans from './Logins/LoginTrans';
 import MainTrans from './VistaTrans/MainTrans';
-import MainDcamion from './VistaDcamion/MainDcamion';
-import GestionarMan from './VistaDcamion/GestionarMan';
+import SolicitudCli from './VistaTrans/SolicitudCli';
+
+
+import LoginDcamion from './Logins/LoginDcamion';
+import GestionarMantenimiento from './VistaDcamion/GestionarMantenimiento';
+import ConsultarEstado from './VistaDcamion/ConsultarEstado';
+
+
+
 
 function App() {
   return (
@@ -31,9 +42,12 @@ function App() {
         <Route path="/MainAdmin" element={<MainAdmin />} />
         <Route path="/MainCliente" element={<MainCliente />} />
         <Route path="/MainTrans" element={<MainTrans />} />
-        <Route path="/MainDcamion" element={<MainDcamion />} />
-        <Route path="/GestionarMan" element={<GestionarMan />} />
-        {/* Redirige cualquier ruta no definida a la página de bienvenida */}
+        <Route path="/GestionarMantenimiento" element={<GestionarMantenimiento />} />
+        <Route path="/BienvenidaCliente" element={<BienvenidaCliente/>} />
+        <Route path="/SolicitudCli" element={<SolicitudCli/>} />
+        <Route path="/ConsultarEstado" element={<ConsultarEstado/>} />
+        <Route path="/CancelarSer" element={<CancelarSer/>} />
+
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

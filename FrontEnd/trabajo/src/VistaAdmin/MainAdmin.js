@@ -1,171 +1,203 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './styles_admin.css';
-import axios from 'axios';
+import { Link, useLocation } from 'react-router-dom';
 
-
-const MainAdmin = () => { 
+const MainAdmin = () => {
+    const location = useLocation();
+    const [camiones, setCamiones] = useState([]);
     const [formData, setFormData] = useState({
         Matricula: '',
         Capacidad: '',
         Gasolina: '',
-        CargaActual: 0
+        Estado: ''
     });
-
-    const [camiones, setCamiones] = useState([]);
-    const [selectedCamion, setSelectedCamion] = useState(null);
-    const [carga, setCarga] = useState(0);
+    const [editingIndex, setEditingIndex] = useState(null);
 
     useEffect(() => {
-        const fetchCamiones = async () => {
-            try {
-                const response = await axios.get("http://localhost:4000/ListaCam");
-                setCamiones(response.data);
-            } catch (error) {
-                console.error("Error al obtener los camiones:", error);
-            }
-        };
-        fetchCamiones();
+        // Llamada  API para obtener camiones 
+        fetch('http://localhost:4000/ListaCam')
+            .then((response) => response.json())
+            .then((data) => setCamiones(data))
+            .catch((error) => console.error('Error al cargar camiones:', error));
     }, []);
 
-    const enviar = async (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const enviar = (e) => {
         e.preventDefault();
-
-        try {
-            const response = await axios.post("http://localhost:4000/ListaCam", formData);
-            alert("Éxito: " + response.data.message);
-            
-            
-            setCamiones([...camiones, formData]);
-
-       
-            setFormData({
-                Matricula: '',
-                Capacidad: '',
-                Gasolina: '',
-                CargaActual: 0
-            });
-        } catch (error) {
-            console.error(error);
-            alert("Error al enviar los datos: " + error.message);
-        }
-    };
-
-    const handleChange = (event) => {
-        setFormData({
-            ...formData,
-            [event.target.name]: event.target.value
-        });
-    };
-
-    const handleSelectCamion = (camion) => {
-        setSelectedCamion(camion);
-    };
-
-    const handleUpdateCamion = () => {
-        setCamiones(camiones.map(c => c.Matricula === selectedCamion.Matricula ? selectedCamion : c));
-        setSelectedCamion(null);
-    };
-
-    const handleAssignCamion = () => {
-        const camionAsignado = camiones.find(c => c.Capacidad >= carga && c.CargaActual === 0);
-        if (camionAsignado) {
-            camionAsignado.CargaActual = carga;
-            setCamiones([...camiones]);
-            alert(`Camión con matrícula ${camionAsignado.Matricula} asignado a la carga de ${carga} kg.`);
+        if (editingIndex === null) {
+            // Registro de un nuevo camión
+            fetch('http://localhost:4000/ListaCam', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+                .then((response) => response.json())
+                .then((nuevoCamion) => setCamiones([...camiones, nuevoCamion]))
+                .catch((error) => console.error('Error al registrar camión:', error));
         } else {
-            alert("No hay camiones disponibles con suficiente capacidad.");
+            handleUpdate();
         }
+        setFormData({ Matricula: '', Capacidad: '', Gasolina: '' });
+        setEditingIndex(null);
     };
 
-    const handleDeleteCamion = (matricula) => {
-        const updatedCamiones = camiones.filter(c => c.Matricula !== matricula);
-        setCamiones(updatedCamiones);
+    const handleEdit = (index) => {
+        setEditingIndex(index);
+        setFormData(camiones[index]);
     };
 
+    const handleUpdate = () => {
+        const updatedCamion = { ...formData };
+
+        fetch(`http://localhost:4000/ListaCam/${camiones[editingIndex].id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedCamion),
+        })
+            .then((response) => response.json())
+            .then((camionActualizado) => {
+                const camionesActualizados = [...camiones];
+                camionesActualizados[editingIndex] = camionActualizado;
+                setCamiones(camionesActualizados);
+            })
+            .catch((error) => console.error('Error al actualizar camión:', error));
+    };
+
+    const handleDelete = (index) => {
+        const camionId = camiones[index].id;
+        fetch(`http://localhost:4000/ListaCam/${camionId}`, {
+            method: 'DELETE',
+        })
+            .then(() => {
+                const nuevosCamiones = camiones.filter((_, i) => i !== index);
+                setCamiones(nuevosCamiones);
+            })
+            .catch((error) => console.error('Error al eliminar camión:', error));
+    };
     const handleLogout = () => {
         alert("Redirigiendo a la página de inicio de sesión...");
         window.location.href = '/PaginaBienvenida'; 
     };
 
-    return ( 
-            
-        <div className="Cont-button">
-        <nav className="navbar navbar-expand-lg navbar-custom">
-          <div className="container-fluid">
-            <Link className="navbar-brand" to="/">
-            </Link>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <Link className="nav-link active" aria-current="page" to="/solicitudes">Solicitudes</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/MainAdmin">Camiones</Link>
-                </li>
-              </ul>
-              <div className="ml-auto d-flex align-items-center">
-                <button type="button" onClick={handleLogout} className="btn btn-primary">Cerrar Sesión</button>
-              </div>
-            </div>
-          </div>
-        </nav>
-                <h2>Gestión de Camiones</h2>
-                
-                
-                <form onSubmit={enviar}>
-                    <input 
-                        type="text" 
-                        placeholder="Matrícula" 
-                        name="Matricula"
-                        value={formData.Matricula} 
-                        onChange={handleChange}
-                        required
-                    />
-                    <input 
-                        type="number" 
-                        placeholder="Capacidad de carga (kg)" 
-                        name="Capacidad"
-                        value={formData.Capacidad} 
-                        onChange={handleChange}
-                        required
-                    />
-                    <input 
-                        type="number" 
-                        placeholder="Consumo de gasolina (gal/km)" 
-                        name="Gasolina"
-                        value={formData.Gasolina} 
-                        onChange={handleChange}
-                        required
-                    />
-                    <button type="submit" className="btn-registrar-camion">Registrar Camión</button>
-                </form>
+    return (
+        <div>
+             <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
+                <div className="container-fluid">
+            <div className="bienvenida-imagen-container">
+                <img src="Images/camion.png" alt="Gestión de Camiones" className="Logo-navbar" />
+                    </div>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+                <Link
+                    className={`nav-link custom-font-size ${location.pathname === '/BienvenidaAdmin' ? 'active text-white' : ''}`}
+                    aria-current="page"
+                    to="/BienvenidaAdmin"
+                >
+                    ¡Bienvenid@!
+                </Link>
+            </li>
+            <li className="nav-item">
+                <Link
+                    className={`nav-link custom-font-size ${location.pathname === '/solicitudes' ? 'active text-white' : ''}`}
+                    to="/solicitudes"
+                >
+                    Solicitudes
+                </Link>
+            </li>
+            <li className="nav-item">
+                <Link
+                    className={`nav-link custom-font-size ${location.pathname === '/MainAdmin' ? 'active text-white' : ''}`}
+                    to="/MainAdmin"
+                >
+                    Camiones
+                </Link>
+            </li>
+        </ul>
+                        <div >
+                            <button type="button" onClick={handleLogout} className="btn btn-primary bg-dark d-flex ml-auto">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div className="container">
+            <h2>Gestionar Camiones</h2>
+            <form onSubmit={enviar}>
+                <input
+                    type="text"
+                    placeholder="Matrícula"
+                    name="Matricula"
+                    value={formData.Matricula}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="number"
+                    placeholder="Capacidad de carga (kg)"
+                    name="Capacidad"
+                    value={formData.Capacidad}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="number"
+                    placeholder="Consumo de gasolina (gal/km)"
+                    name="Gasolina"
+                    value={formData.Gasolina}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="text"
+                    placeholder="Estado"
+                    name="Estado"
+                    value={formData.Estado}
+                    onChange={handleChange}
+                    required
+                />
+                <button type="submit" className="btn-registrar-camion">
+                    {editingIndex === null ? 'Registrar Camión' : 'Actualizar Camión'}
+                </button>
+            </form>
 
-                <h2>Camiones Registrados</h2>
-                <table className="camiones-table">
-                    <thead>
-                        <tr>
-                            <th>Matrícula</th>
-                            <th>Capacidad (kg)</th>
-                            <th>Consumo (gal/km)</th>
-                            <th>Carga Actual (kg)</th>
+            <h2>Camiones Agregados</h2>
+            <table className="camiones-table">
+                <thead>
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Capacidad (kg)</th>
+                        <th>Consumo (gal/km)</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {camiones.map((camion, index) => (
+                        <tr key={index}>
+                            <td>{camion.Matricula}</td>
+                            <td>{camion.Capacidad}</td>
+                            <td>{camion.Gasolina}</td>
+                            <td>{camion.Estado}</td>
+                            <td>
+                                <button onClick={() => handleEdit(index)}>Editar</button>
+                                <button onClick={() => handleDelete(index)}>Eliminar</button>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {camiones.map((camion, index) => (
-                            <tr key={index}>
-                                <td>{camion.Matricula}</td>
-                                <td>{camion.Capacidad}</td>
-                                <td>{camion.Gasolina}</td>
-                                <td>{camion.CargaActual}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+        </div>
     );
 };
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, useLocation} from 'react-router-dom'; // Importa Link
+import { Link, useLocation} from 'react-router-dom'; 
 
 
-const BienvenidaAdmin = () => { 
+const BienvenidaTrans = () => { 
     const location = useLocation();
     const handleLogout = () => {
         alert("Redirigiendo a la página de inicio de sesión...");
@@ -23,27 +23,27 @@ const BienvenidaAdmin = () => {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
                 <Link
-                    className={`nav-link custom-font-size ${location.pathname === '/BienvenidaAdmin' ? 'active text-white' : ''}`}
+                    className={`nav-link custom-font-size ${location.pathname === '/BienvenidaCliente' ? 'active text-white' : ''}`}
                     aria-current="page"
-                    to="/BienvenidaAdmin"
+                    to="/BienvenidaCliente"
                 >
                     ¡Bienvenid@!
                 </Link>
             </li>
             <li className="nav-item">
                 <Link
-                    className={`nav-link custom-font-size ${location.pathname === '/solicitudes' ? 'active text-white' : ''}`}
-                    to="/solicitudes"
+                    className={`nav-link custom-font-size ${location.pathname === '/MainCliente' ? 'active text-white' : ''}`}
+                    to="/MainCliente"
                 >
-                    Solicitudes
+                    Alquilar Camion
                 </Link>
             </li>
             <li className="nav-item">
                 <Link
-                    className={`nav-link custom-font-size ${location.pathname === '/MainAdmin' ? 'active text-white' : ''}`}
-                    to="/MainAdmin"
+                    className={`nav-link custom-font-size ${location.pathname === '/CancelarSer' ? 'active text-white' : ''}`}
+                    to="/CancelarSer"
                 >
-                    Camiones
+                    Cancelacion de Servicio
                 </Link>
             </li>
         </ul>
@@ -55,11 +55,11 @@ const BienvenidaAdmin = () => {
             </nav>
             
             <div className="welcome-container">
-                <h1>Bienvenido Administrador</h1>
-                <p>Estamos encantados de tenerte a bordo. Desde aquí podrás gestionar todas las solicitudes y consultar la información sobre los camiones. Utiliza el menú de navegación para acceder a las diferentes secciones del sistema.</p>
+                <h1>Bienvenido Cliente</h1>
+                <p>Estamos encantados de tenerte a bordo. Desde aquí podrás alquilar el camion que mas se ajuste a tu necesidad. Utiliza el menú de navegación para acceder a las diferentes secciones del sistema.</p>
             </div>
         </div>
     );
 };
 
-export default BienvenidaAdmin;
+export default BienvenidaTrans;

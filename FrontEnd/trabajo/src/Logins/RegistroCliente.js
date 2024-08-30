@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../VistaCliente/Estilos.css'; 
+import '../Estilos/estilos.css';
 
 function RegistroCliente() {
   const [formData, setFormData] = useState({
@@ -44,70 +44,63 @@ function RegistroCliente() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-box">
-        <div className="login-logo">
-          <img src="ruta/a/tu/logo.png" alt="Logo" className="logo" />
-        </div>
-        <div className="card">
-          <div className="card-body login-card-body">
-            <p className="login-box-msg">Enviar solicitud para creación de cuenta</p>
-            <form onSubmit={enviar}>
-              <div className="mb-2">
-                <input
-                  type="text"
-                  className="form-control"
-                  name="Nombre"
-                  required
-                  placeholder="Nombre"
-                  value={formData.Nombre}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-2">
-                <input
-                  type="number"
-                  className="form-control"
-                  name="NumeroDocumento"
-                  required
-                  placeholder="Número Documento"
-                  value={formData.NumeroDocumento}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-2">
-                <input
-                  type="number"
-                  className="form-control"
-                  name="Teléfono"
-                  required
-                  placeholder="Número Telefónico"
-                  value={formData.Teléfono}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-2">
-                <input
-                  type="email"
-                  className="form-control"
-                  name="Correo"
-                  required
-                  placeholder="Correo Electrónico"
-                  value={formData.Correo}
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <button type="submit" className="btn btn-success btn-block">
-                  Enviar solicitud
-                </button>
-              </div>
-            </form>
-          </div>
+    <div className="login-container">
+        <div>
+          <h2>Enviar solicitud para creación de cuenta</h2>
+          <form onSubmit={enviar}>
+            <div >
+              <input
+                type="text"
+                className="form-control bg-white text-dark border-secondary"
+                name="Nombre"
+                required
+                placeholder="Nombre"
+                value={formData.Nombre}
+                onChange={handleChange}
+              />
+            </div>
+            <div >
+              <input
+                type="number"
+                className="form-control bg-whit text-dark border-secondary"
+                name="NumeroDocumento"
+                required
+                placeholder="Número Documento"
+                value={formData.NumeroDocumento}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <input
+                type="number"
+                className="form-control bg-white text-dark border-secondary"
+                name="Teléfono"
+                required
+                placeholder="Número Telefónico"
+                value={formData.Teléfono}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <input
+                type="email"
+                className="form-control bg-white text-dark border-secondary"
+                name="Correo"
+                required
+                placeholder="Correo Electrónico"
+                value={formData.Correo}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <button type="submit" className="btn btn-light btn-block bg-gray">
+                Enviar solicitud
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-    </div>
   );
-}
+};
 
 export default RegistroCliente;

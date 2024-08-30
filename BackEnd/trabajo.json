@@ -22,81 +22,90 @@
   ],
   "Cliente": [
     {
-      "id": "24fe",
-      "Nombre": "valery zambrano",
+      "id": "c070",
+      "Nombre": "valery Sarith",
       "Teléfono": "3118482726",
-      "Correo": "valeryzambrano@gmail.com",
+      "Correo": "valery0@valery0",
       "NumeroDocumento": "1014667051",
-      "Usuario": "valery zambrano1014667051",
+      "Usuario": "valery Sarith",
       "Contraseña": "1014667051"
     },
     {
-      "id": "80d5",
-      "Nombre": "valery zambrano",
-      "Teléfono": "3118482726",
-      "Correo": "valeryzambrano@gmail.com",
-      "NumeroDocumento": "1014667051",
-      "Usuario": "valery zambrano1014667051",
-      "Contraseña": "1014667051"
+      "id": "460d",
+      "Nombre": "Dairon Moreno",
+      "Teléfono": "3138755960",
+      "Correo": "daironchap@gmail.com",
+      "NumeroDocumento": "1548952136",
+      "Usuario": "Dairon Moreno",
+      "Contraseña": "1548952136"
     },
     {
-      "id": "1537",
-      "Nombre": "valery zambrano",
-      "Teléfono": "3118482726",
-      "Correo": "valeryzambrano@gmail.com",
-      "NumeroDocumento": "1014667051",
-      "Usuario": "valery zambrano1014667051",
-      "Contraseña": "1014667051"
-    }
-  ],
-  "Solicitudes": [
+      "id": "d195",
+      "Nombre": "Luisa martinez",
+      "Teléfono": "3138755960",
+      "Correo": "lusfe@lusfe",
+      "NumeroDocumento": "108642345",
+      "Usuario": "Luisa martinez",
+      "Contraseña": "108642345"
+    },
     {
-      "id": "3194",
-      "Nombre": "valery zambrano",
-      "NumeroDocumento": "1014667051",
-      "Teléfono": "3118482726",
-      "Correo": "valeryzambrano@gmail.com"
+      "id": "d019",
+      "Nombre": "Armando Zambrano",
+      "Teléfono": "3138755960",
+      "Correo": "arm@arma",
+      "NumeroDocumento": "52364686",
+      "Usuario": "Armando Zambrano",
+      "Contraseña": "52364686"
     }
   ],
+  "Solicitudes": [],
   "ListaCam": [
     {
-      "id": "d99f",
-      "Matricula": "MNC876",
-      "Capacidad": "15000",
-      "Gasolina": "0.45",
-      "CargaActual": 0
-    },
-    {
-      "id": "1c26",
-      "Matricula": "ABC123",
+      "id": "1566",
+      "Matricula": "MNL567",
       "Capacidad": "5000",
+      "Gasolina": "0.15",
+      "Estado": "Disponible"
+    },
+    {
+      "id": "53bb",
+      "Matricula": "ABC12",
+      "Capacidad": "10000",
       "Gasolina": "0.20",
-      "CargaActual": 0
+      "Estado": "Disponible"
     },
     {
-      "id": "9889",
-      "Matricula": "FGH456",
-      "Capacidad": "8000",
+      "id": "e2e8",
+      "Matricula": "FGH674",
+      "Capacidad": "15000",
       "Gasolina": "0.25",
-      "CargaActual": 0
+      "Estado": "Disponible"
     },
     {
-      "id": "f000",
-      "Matricula": "LMN987",
+      "id": "3b41",
+      "Matricula": "MKJ099",
       "Capacidad": "20000",
-      "Gasolina": "0.35",
-      "CargaActual": 0
-    },
-    {
-      "id": "cfa3",
-      "Matricula": "CBD543",
-      "Capacidad": "25000",
-      "Gasolina": "0.45",
-      "CargaActual": 0
+      "Gasolina": "0.30",
+      "Estado": "Disponible"
     }
   ],
   "AlquilarCam": [
-    
+    {
+      "id": "3c58",
+      "camionMatricula": "MNL567",
+      "carga": "3000",
+      "destino": "Nariño"
+    },
+    {
+      "id": "b5c1",
+      "camionMatricula": "MNL567"
+    }
+  ],
+  "CancelarAlquiler": [
+    {
+      "id": "f7e2",
+      "camionMatricula": "MNL567"
+    }
   ],
   "Mantenimiento": [
     {
@@ -104,6 +113,12 @@
       "fechaUltimoMantenimiento": "2024-08-08",
       "tipoMantenimiento": "cambio de llantas",
       "observaciones": "edsx"
+    },
+    {
+      "id": "2aa9",
+      "fechaUltimoMantenimiento": "2024-08-22",
+      "tipoMantenimiento": "Cambio de llantas",
+      "observaciones": "Las llantas explotaron."
     }
   ]
 }

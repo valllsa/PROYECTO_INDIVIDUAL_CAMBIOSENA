@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import '../Estilos/estilos.css';
 
 const ClienteInterfaz = () => {
+  const location = useLocation();
   const [carga, setCarga] = useState('');
   const [destino, setDestino] = useState('');
   const [solicitudEstado, setSolicitudEstado] = useState(null);
@@ -11,43 +13,50 @@ const ClienteInterfaz = () => {
   const [camionRecomendado, setCamionRecomendado] = useState(null);
 
   useEffect(() => {
-    const fetchCamiones = async () => {
-      try {
-        const response = await axios.get("http://localhost:4000/ListaCam");
-        setCamiones(response.data);
-      } catch (error) {
-        console.error("Error al obtener los camiones:", error);
-      }
-    };
     fetchCamiones();
   }, []);
 
+  const fetchCamiones = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/ListaCam");
+      console.log("Camiones recibidos:", response.data); 
+      setCamiones(response.data);
+    } catch (error) {
+      console.error("Error al obtener los camiones:", error);
+    }
+  };
+
   const recomendarCamion = (peso) => {
-    const camion = camiones.find(c => peso <= c.Capacidad);
+    const camion = camiones.find(c => parseInt(c.Capacidad) >= parseInt(peso) && c.Estado === 'Disponible');
     setCamionRecomendado(camion || 'No hay camiones disponibles para este peso.');
   };
 
   const handleSolicitudSubmit = async () => {
-    if (!camionSeleccionado) {
-      alert('Por favor, seleccione un camión.');
+    if (!camionSeleccionado || !carga || !destino) {
+      alert('Por favor, complete todos los campos antes de enviar la solicitud.');
       return;
     }
+
     try {
-      const response = await axios.post("http://localhost:4000/AlquilarCam", {
-        camionId: camionSeleccionado,
+      await axios.post("http://localhost:4000/AlquilarCam", {
+        camionMatricula: camionSeleccionado,
         carga,
-        destino,
+        destino
       });
-      setSolicitudEstado('Solicitud realizada con éxito.');
+
+      setCamiones(prevCamiones => 
+        prevCamiones.map(camion => 
+          camion.Matricula === camionSeleccionado 
+            ? { ...camion, Estado: 'Ocupado', CargaActual: carga } 
+            : camion
+        )
+      );
+
+      setSolicitudEstado('Solicitud realizada con éxito. El camión ahora está Ocupado.');
     } catch (error) {
       console.error("Error al realizar la solicitud:", error);
       setSolicitudEstado('Error al realizar la solicitud.');
     }
-  };
-
-  const handleConsultaEstado = () => {
-    console.log('Consultando estado de la solicitud...');
-    setSolicitudEstado('Estado de la solicitud: En proceso.');
   };
 
   const handleLogout = () => {
@@ -58,126 +67,120 @@ const ClienteInterfaz = () => {
     <div>
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Tu Marca</a>
+          <div className="bienvenida-imagen-container">
+            <img src="Images/camion.png" alt="Gestión de Camiones" className="Logo-navbar" />
+          </div>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/CancelarSer">Cancelación de servicios</Link>
+                <Link className={`nav-link custom-font-size ${location.pathname === '/BienvenidaCliente' ? 'active text-white' : ''}`} aria-current="page" to="/BienvenidaCliente">
+                  ¡Bienvenid@!
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className={`nav-link custom-font-size ${location.pathname === '/MainCliente' ? 'active text-white' : ''}`} to="/MainCliente">
+                  Alquilar Camión
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className={`nav-link custom-font-size ${location.pathname === '/CancelarSer' ? 'active text-white' : ''}`} to="/CancelarSer">
+                  Cancelación de Servicios
+                </Link>
               </li>
             </ul>
-            <div className="ml-auto d-flex align-items-center">
-              <button type="button" onClick={handleLogout} className="btn btn-primary">Cerrar Sesión</button>
+            <div>
+              <button type="button" onClick={handleLogout} className="btn btn-primary bg-dark d-flex ml-auto">Cerrar Sesión</button>
             </div>
           </div>
         </div>
       </nav>
-      <div>
-        <h1>Solicitud de Servicios</h1>
 
-        <div>
-          <h2>Camiones Registrados</h2>
-          <table className="camiones-table">
-            <thead>
-              <tr>
-                <th>Matrícula</th>
-                <th>Capacidad (kg)</th>
-                <th>Consumo (gal/km)</th>
-                <th>Carga Actual (kg)</th>
+      <div className="container">
+        <h2 className="text-dark">Camiones Registrados</h2>
+        <table className="camiones-table">
+          <thead>
+            <tr>
+              <th>Matrícula</th>
+              <th>Capacidad (kg)</th>
+              <th>Consumo (gal/km)</th>
+              <th>Carga Actual (kg)</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {camiones.map((camion) => (
+              <tr key={camion.id}>
+                <td>{camion.Matricula}</td>
+                <td>{camion.Capacidad}</td>
+                <td>{camion.Gasolina}</td>
+                <td>{camion.CargaActual}</td>
+                <td>{camion.Estado}</td>
               </tr>
-            </thead>
-            <tbody>
-              {camiones.map((camion, index) => (
-                <tr key={index}>
-                  <td>{camion.Matricula}</td>
-                  <td>{camion.Capacidad}</td>
-                  <td>{camion.Gasolina}</td>
-                  <td>{camion.CargaActual}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div style={{ marginTop: '10px' }}>
-          <label htmlFor="camion">Seleccionar Camión:</label>
-          <select
-            id="camion"
-            value={camionSeleccionado}
-            onChange={(e) => setCamionSeleccionado(e.target.value)}
-            style={{ marginLeft: '10px', padding: '8px', width: 'calc(100% - 20px)' }}
-          >
-            <option value="">Seleccione un camión</option>
-            {camiones.map((camion, index) => (
-              <option key={index} value={camion.Matricula}>
-                {camion.Matricula} - Capacidad: {camion.Capacidad} kg
-              </option>
             ))}
-          </select>
+          </tbody>
+        </table>
+
+        <div className="mt-4">
+          <h2 className="text-dark">Alquilar Camión</h2>
+          <div className="mb-3">
+            <label htmlFor="camion" className="form-label text-dark">Seleccionar Camión:</label>
+            <select id="camion" className="form-select bg-white text-dark select-lg" value={camionSeleccionado} onChange={(e) => setCamionSeleccionado(e.target.value)}>
+              <option value="">Seleccione un camión</option>
+              {camiones.filter(camion => camion.Estado === 'Disponible').map((camion) => (
+                <option key={camion.id} value={camion.Matricula}>
+                  {camion.Matricula} - Capacidad: {camion.Capacidad} kg
+                </option>
+              ))}
+            </select>
           </div>
-        <div style={{ marginTop: '20px' }}>
-          <label htmlFor="carga">Carga:</label>
-          <input
-            type="number"
-            id="carga"
-            value={carga}
-            onChange={(e) => {
-              setCarga(e.target.value);
-              recomendarCamion(e.target.value);
-            }}
-            style={{ marginLeft: '10px', padding: '8px', width: 'calc(100% - 20px)' }}
-          />
+          
+          <div className="mb-3">
+            <label htmlFor="carga" className="form-label text-dark">Carga (kg):</label>
+            <input 
+              type="number" 
+              id="carga" 
+              className="form-control bg-white text-dark" 
+              value={carga} 
+              onChange={(e) => { 
+                setCarga(e.target.value); 
+                recomendarCamion(e.target.value); 
+              }} 
+            />
+          </div>
+          
+          <div className="mb-3">
+            <label htmlFor="destino" className="form-label text-dark">Destino:</label>
+            <input 
+              type="text" 
+              id="destino" 
+              className="form-control bg-white text-dark" 
+              value={destino} 
+              onChange={(e) => setDestino(e.target.value)} 
+            />
+          </div>
+
+          <button onClick={handleSolicitudSubmit} className="btn-registrar-camion">Alquilar camión</button>
+
+          {solicitudEstado && (
+            <div className="alert alert-info mt-3">
+              <h3>Estado de la Solicitud:</h3>
+              <p>{solicitudEstado}</p>
+            </div>
+          )}
         </div>
-        
-        
-        <div style={{ marginTop: '10px' }}>
-          <label htmlFor="destino">Destino:</label>
-          <input
-            type="text"
-            id="destino"
-            value={destino}
-            onChange={(e) => setDestino(e.target.value)}
-            style={{ marginLeft: '10px', padding: '8px', width: 'calc(100% - 20px)' }}
-          />
+
+        <div className="mt-4">
+          <h2 className="text-dark">Recomendación de Camión</h2>
+          {camionRecomendado && (
+            <div className={`alert ${typeof camionRecomendado === 'string' ? 'alert-danger' : 'alert-success'}`}>
+              <h3>Camión Recomendado:</h3>
+              <p>{typeof camionRecomendado === 'string' ? camionRecomendado : camionRecomendado.Matricula}</p>
+            </div>
+          )}
         </div>
-
-        
-
-        <button
-          onClick={handleSolicitudSubmit}
-          style={{ marginTop: '20px', padding: '10px', backgroundColor: '#003366', color: '#fff', border: 'none', borderRadius: '4px' }}
-        >
-          Alquilar camión
-        </button>
-
-        {/* Mover el mensaje de estado aquí para que se muestre justo debajo del botón */}
-        {solicitudEstado && (
-          <div style={{ marginTop: '10px', padding: '10px', border: '1px solid #ddd', borderRadius: '4px' }}>
-            <h3>Estado de la Solicitud:</h3>
-            <p>{solicitudEstado}</p>
-          </div>
-        )}
-      </div>
-
-      <div style={{ marginTop: '20px' }}>
-        <h2>Consultar Estado de Solicitud</h2>
-        <button
-          onClick={handleConsultaEstado}
-          style={{ padding: '10px', backgroundColor: '#003366', color: '#fff', border: 'none', borderRadius: '4px' }}
-        >
-          Consultar Estado
-        </button>
-      </div>
-
-      <div style={{ marginTop: '20px' }}>
-        <h2>Recomendación de Camión</h2>
-        {camionRecomendado && (
-          <div style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '4px' }}>
-            <h3>Camión Recomendado:</h3>
-            <p>{camionRecomendado.Matricula || camionRecomendado}</p>
-          </div>
-        )}
       </div>
     </div>
   );
