@@ -24,11 +24,11 @@ const Solicitudes = () => {
     try {
       const response1 = await axios.post("http://localhost:4000/Cliente", {
         Nombre: record.Nombre,
-        Teléfono: record.Teléfono,
+        Telefono: record.Telefono,
         Correo: record.Correo,
         NumeroDocumento: record.NumeroDocumento,
         Usuario: record.Nombre,
-        Contraseña: record.NumeroDocumento
+        Contrasena: record.NumeroDocumento
       });
 
       if (response1.status === 201) {
@@ -154,7 +154,7 @@ const Solicitudes = () => {
                         <ul className="list-group">
                           <li className="list-group-item">{`Nombre: ${record.Nombre}`}</li>
                           <li className="list-group-item">{`Número de documento: ${record.NumeroDocumento}`}</li>
-                          <li className="list-group-item">{`Teléfono: ${record.Teléfono}`}</li>
+                          <li className="list-group-item">{`Teléfono: ${record.Telefono}`}</li>
                           <li className="list-group-item">{`Correo: ${record.Correo}`}</li>
                         </ul>
                       </div>

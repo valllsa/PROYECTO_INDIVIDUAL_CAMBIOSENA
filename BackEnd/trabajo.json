@@ -22,103 +22,42 @@
   ],
   "Cliente": [
     {
-      "id": "c070",
-      "Nombre": "valery Sarith",
-      "Teléfono": "3118482726",
-      "Correo": "valery0@valery0",
-      "NumeroDocumento": "1014667051",
-      "Usuario": "valery Sarith",
-      "Contraseña": "1014667051"
-    },
-    {
-      "id": "460d",
-      "Nombre": "Dairon Moreno",
-      "Teléfono": "3138755960",
-      "Correo": "daironchap@gmail.com",
-      "NumeroDocumento": "1548952136",
-      "Usuario": "Dairon Moreno",
-      "Contraseña": "1548952136"
-    },
-    {
-      "id": "d195",
-      "Nombre": "Luisa martinez",
-      "Teléfono": "3138755960",
-      "Correo": "lusfe@lusfe",
-      "NumeroDocumento": "108642345",
-      "Usuario": "Luisa martinez",
-      "Contraseña": "108642345"
-    },
-    {
       "id": "d019",
       "Nombre": "Armando Zambrano",
       "Teléfono": "3138755960",
       "Correo": "arm@arma",
       "NumeroDocumento": "52364686",
       "Usuario": "Armando Zambrano",
-      "Contraseña": "52364686"
+      "Contraseña": "52364686",
+      "Alquileres": []
+    },
+    {
+      "id": "82da",
+      "Nombre": "Valda",
+      "Telefono": "3467899",
+      "Correo": "valsa@valsa",
+      "NumeroDocumento": "1014667051",
+      "Usuario": "Valda",
+      "Contraseña": "1014667051",
+      "Alquileres": []
     }
   ],
   "Solicitudes": [],
   "ListaCam": [
     {
-      "id": "1566",
-      "Matricula": "MNL567",
-      "Capacidad": "5000",
-      "Gasolina": "0.15",
-      "Estado": "Disponible"
-    },
-    {
-      "id": "53bb",
-      "Matricula": "ABC12",
-      "Capacidad": "10000",
-      "Gasolina": "0.20",
-      "Estado": "Disponible"
-    },
-    {
-      "id": "e2e8",
-      "Matricula": "FGH674",
-      "Capacidad": "15000",
-      "Gasolina": "0.25",
-      "Estado": "Disponible"
-    },
-    {
-      "id": "3b41",
+      "id": "8e2b",
       "Matricula": "MKJ099",
       "Capacidad": "20000",
       "Gasolina": "0.30",
       "Estado": "Disponible"
-    }
-  ],
-  "AlquilarCam": [
-    {
-      "id": "3c58",
-      "camionMatricula": "MNL567",
-      "carga": "3000",
-      "destino": "Nariño"
     },
     {
-      "id": "b5c1",
-      "camionMatricula": "MNL567"
+      "id": "12bd",
+      "Matricula": "ABC123",
+      "Capacidad": "15000",
+      "Gasolina": "0.25",
+      "Estado": "Disponible"
     }
   ],
-  "CancelarAlquiler": [
-    {
-      "id": "f7e2",
-      "camionMatricula": "MNL567"
-    }
-  ],
-  "Mantenimiento": [
-    {
-      "id": "8fe7",
-      "fechaUltimoMantenimiento": "2024-08-08",
-      "tipoMantenimiento": "cambio de llantas",
-      "observaciones": "edsx"
-    },
-    {
-      "id": "2aa9",
-      "fechaUltimoMantenimiento": "2024-08-22",
-      "tipoMantenimiento": "Cambio de llantas",
-      "observaciones": "Las llantas explotaron."
-    }
-  ]
+  "Mantenimiento": []
 }

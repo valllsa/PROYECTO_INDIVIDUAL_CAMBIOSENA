@@ -7,7 +7,7 @@ const CancelarSer = () => {
   const location = useLocation();
   const [alquileres, setAlquileres] = useState([]);
   const [alquilerSeleccionado, setAlquilerSeleccionado] = useState('');
-  const [estadoCancelacion, setEstadoCancelacion] = useState(null);
+  const [estadoCancelacion, setEstadoCancelacion] = useState('');
 
   useEffect(() => {
     fetchAlquileres();
@@ -16,35 +16,47 @@ const CancelarSer = () => {
   const fetchAlquileres = async () => {
     try {
       const response = await axios.get("http://localhost:4000/AlquilarCam");
-      console.log("Alquileres recibidos:", response.data); // Depuración
+      console.log("Alquileres recibidos:", response.data);
       setAlquileres(response.data);
     } catch (error) {
       console.error("Error al obtener los alquileres:", error);
+      setEstadoCancelacion('Error al obtener los alquileres.');
     }
   };
 
   const handleCancelacionSubmit = async () => {
     if (!alquilerSeleccionado) {
-      alert('Por favor, seleccione un alquiler antes de cancelar.');
+      window.alert('Por favor, seleccione un alquiler antes de cancelar.');
       return;
     }
 
     const alquiler = alquileres.find(a => a.id === alquilerSeleccionado);
-    const camionMatricula = alquiler?.camionMatricula;
+    const Matricula = alquiler?.Matricula;
+
+    // Verificar si la cancelación se puede realizar con 4 días de anticipación
+    const fechaActual = new Date();
+    const fechaInicioAlquiler = new Date(alquiler?.fechaInicio);
+    const fechaLimiteCancelacion = new Date(fechaInicioAlquiler);
+    fechaLimiteCancelacion.setDate(fechaLimiteCancelacion.getDate() - 4);
+
+    if (fechaActual > fechaLimiteCancelacion) {
+      window.alert('No se puede cancelar el alquiler. Se requiere al menos 4 días de anticipación.');
+      return;
+    }
 
     try {
-      await axios.post("http://localhost:4000/AlquilarCam", {
-        camionMatricula: camionMatricula,
+      await axios.post("http://localhost:4000/AlquilarCam", { 
+        idAlquiler: alquilerSeleccionado 
       });
 
       setAlquileres(prevAlquileres =>
         prevAlquileres.filter(alquiler => alquiler.id !== alquilerSeleccionado)
       );
 
-      setEstadoCancelacion(`El alquiler del camión con matrícula ${camionMatricula} ha sido cancelado con éxito.`);
+      window.alert(`El alquiler del camión con matrícula ${Matricula} ha sido cancelado con éxito.`);
     } catch (error) {
       console.error("Error al cancelar el alquiler:", error);
-      setEstadoCancelacion('Error al cancelar el alquiler.');
+      window.alert('Error al cancelar el alquiler.');
     }
   };
 
@@ -64,11 +76,6 @@ const CancelarSer = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className={`nav-link custom-font-size ${location.pathname === '/BienvenidaCliente' ? 'active text-white' : ''}`} aria-current="page" to="/BienvenidaCliente">
-                  ¡Bienvenid@!
-                </Link>
-              </li>
               <li className="nav-item">
                 <Link className={`nav-link custom-font-size ${location.pathname === '/MainCliente' ? 'active text-white' : ''}`} to="/MainCliente">
                   Alquilar Camión
@@ -95,20 +102,13 @@ const CancelarSer = () => {
             <option value="">Seleccione un alquiler</option>
             {alquileres.map((alquiler) => (
               <option key={alquiler.id} value={alquiler.id}>
-                {alquiler.camionMatricula} - Destino: {alquiler.destino} - Carga: {alquiler.carga} kg
+                {alquiler.Matricula} - Destino: {alquiler.destino} - Carga: {alquiler.carga} kg
               </option>
             ))}
           </select>
         </div>
         
         <button onClick={handleCancelacionSubmit} className="btn-registrar-camion">Cancelar Alquiler</button>
-
-        {estadoCancelacion && (
-          <div className="alert alert-info mt-3">
-            <h3>Estado de la Cancelación:</h3>
-            <p>{estadoCancelacion}</p>
-          </div>
-        )}
       </div>
     </div>
   );

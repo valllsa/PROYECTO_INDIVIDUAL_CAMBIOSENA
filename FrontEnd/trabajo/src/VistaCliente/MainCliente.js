@@ -9,18 +9,26 @@ const ClienteInterfaz = () => {
   const [destino, setDestino] = useState('');
   const [solicitudEstado, setSolicitudEstado] = useState(null);
   const [camiones, setCamiones] = useState([]);
-  const [camionSeleccionado, setCamionSeleccionado] = useState('');
+  const [Matricula, setMatricula] = useState('');
   const [camionRecomendado, setCamionRecomendado] = useState(null);
+  const [clientInfo, setClientInfo] = useState({});
 
   useEffect(() => {
     fetchCamiones();
   }, []);
 
+  const validateMatricula = (matricula) => {
+    return /^[A-Z]{3}\d{3}$/.test(matricula);
+  };
+
   const fetchCamiones = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/ListaCam");
-      console.log("Camiones recibidos:", response.data); 
-      setCamiones(response.data);
+      const { data } = await axios.get("http://localhost:4000/ListaCam");
+      console.log("Camiones recibidos:", data);
+      setCamiones(data);
+
+      const clientResponse = await axios.get(`http://localhost:4000/api/cliente/${data[0].id}`);
+      setClientInfo(clientResponse.data);
     } catch (error) {
       console.error("Error al obtener los camiones:", error);
     }
@@ -32,30 +40,52 @@ const ClienteInterfaz = () => {
   };
 
   const handleSolicitudSubmit = async () => {
-    if (!camionSeleccionado || !carga || !destino) {
+    if (!Matricula || !carga || !destino) {
       alert('Por favor, complete todos los campos antes de enviar la solicitud.');
       return;
     }
 
+    if (!validateMatricula(Matricula)) {
+      alert('Por favor, ingrese una matrícula válida (AAA123).');
+      return;
+    }
+
     try {
-      await axios.post("http://localhost:4000/AlquilarCam", {
-        camionMatricula: camionSeleccionado,
+      // Envía la solicitud al servidor
+      const response = await axios.post("http://localhost:4000/Cliente", {
+        Matricula,
         carga,
         destino
       });
 
-      setCamiones(prevCamiones => 
-        prevCamiones.map(camion => 
-          camion.Matricula === camionSeleccionado 
-            ? { ...camion, Estado: 'Ocupado', CargaActual: carga } 
-            : camion
-        )
-      );
+      // Actualiza el estado del camión en la API del cliente
+      await axios.post(`http://localhost:4000/api/cliente/${response.data.id}`, {
+        Matricula: Matricula,
+        Carga: carga,
+        Destino: destino,
+        FechaInicio: new Date().toISOString(),
+        FechaFin: null
+      });
+
+      // Actualiza el estado del camión en la lista local
+      await axios.patch(`http://localhost:4000/ListaCam/${Matricula}`, {
+        Estado: "Ocupado"
+      });
 
       setSolicitudEstado('Solicitud realizada con éxito. El camión ahora está Ocupado.');
+
+      // Actualiza la información del cliente en la interfaz
+      const updatedClientInfo = await axios.get(`http://localhost:4000/Cliente/${response.data.id}`);
+      setClientInfo(updatedClientInfo.data);
     } catch (error) {
-      console.error("Error al realizar la solicitud:", error);
-      setSolicitudEstado('Error al realizar la solicitud.');
+      console.error("Error al procesar la solicitud:", error.response?.data || error.message);
+      if (error.response?.status === 404) {
+        setSolicitudEstado('El camión seleccionado no existe o ya está alquilado.');
+      } else if (error.response?.status === 500) {
+        setSolicitudEstado('Ha ocurrido un error en el servidor. Por favor, intente nuevamente.');
+      } else {
+        setSolicitudEstado('Ha ocurrido un error al procesar su solicitud. Error: ' + (error.response?.data?.message || error.message));
+      }
     }
   };
 
@@ -75,11 +105,6 @@ const ClienteInterfaz = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className={`nav-link custom-font-size ${location.pathname === '/BienvenidaCliente' ? 'active text-white' : ''}`} aria-current="page" to="/BienvenidaCliente">
-                  ¡Bienvenid@!
-                </Link>
-              </li>
               <li className="nav-item">
                 <Link className={`nav-link custom-font-size ${location.pathname === '/MainCliente' ? 'active text-white' : ''}`} to="/MainCliente">
                   Alquilar Camión
@@ -127,7 +152,7 @@ const ClienteInterfaz = () => {
           <h2 className="text-dark">Alquilar Camión</h2>
           <div className="mb-3">
             <label htmlFor="camion" className="form-label text-dark">Seleccionar Camión:</label>
-            <select id="camion" className="form-select bg-white text-dark select-lg" value={camionSeleccionado} onChange={(e) => setCamionSeleccionado(e.target.value)}>
+            <select id="camion" className="form-select bg-white text-dark select-lg" value={Matricula} onChange={(e) => setMatricula(e.target.value)}>
               <option value="">Seleccione un camión</option>
               {camiones.filter(camion => camion.Estado === 'Disponible').map((camion) => (
                 <option key={camion.id} value={camion.Matricula}>

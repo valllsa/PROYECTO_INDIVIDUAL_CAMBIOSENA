@@ -8,7 +8,7 @@ const MainAdmin = () => {
         Matricula: '',
         Capacidad: '',
         Gasolina: '',
-        Estado: ''
+        Estado: 'Disponible'
     });
     const [editingIndex, setEditingIndex] = useState(null);
 
@@ -154,14 +154,6 @@ const MainAdmin = () => {
                     placeholder="Consumo de gasolina (gal/km)"
                     name="Gasolina"
                     value={formData.Gasolina}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Estado"
-                    name="Estado"
-                    value={formData.Estado}
                     onChange={handleChange}
                     required
                 />

@@ -3,26 +3,24 @@ import { useNavigate, Link } from 'react-router-dom';
 import '../Estilos/estilos.css';
 import axios from 'axios';
 
-function LoginAdmin() {
+function LoginCliente() {
   const [formData, setFormData] = useState({
     Usuario: '',
     Contraseña: ''
   });
   const navigate = useNavigate();
 
-
   const enviar = async (e) => {
     e.preventDefault();
 
     try {
-      // Solicitud GET para obtener los datos del usuario
       const response = await axios.get(`http://localhost:4000/Cliente?Usuario=${formData.Usuario}`);
-      
+
       if (response.data.length > 0) {
-      
         const usuario = response.data.find(user => user.Usuario === formData.Usuario);
 
-        if (usuario && usuario.Contrasena === formData.Contrasena) {
+        if (usuario && usuario.Contraseña === formData.Contraseña) {
+          localStorage.setItem('cliente', JSON.stringify(usuario));
           alert("Éxito al iniciar sesión");
           navigate('/BienvenidaCliente');
         } else {
@@ -33,18 +31,16 @@ function LoginAdmin() {
       }
     } catch (error) {
       console.error(error);
-      alert("Ocurrió un error al intentar iniciar sesión");
+      alert("Ocurrió un error al intentar iniciar sesión. Por favor, intente nuevamente.");
     }
   };
 
- 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
-
 
   const goToWelcomePage = () => {
     navigate('/PaginaBienvenida'); 
@@ -85,4 +81,4 @@ function LoginAdmin() {
   );
 }
 
-export default LoginAdmin;
+export default LoginCliente;
