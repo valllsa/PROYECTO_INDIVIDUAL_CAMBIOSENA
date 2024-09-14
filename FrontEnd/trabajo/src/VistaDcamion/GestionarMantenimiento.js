@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../Estilos/estilos.css';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 
 const GestionarMantenimiento = () => {  
@@ -68,9 +69,9 @@ const GestionarMantenimiento = () => {
                 </Link>
             </li>
         </ul>
-                        <div >
-                            <button type="button" onClick={handleLogout} className="btn btn-primary bg-dark d-flex ml-auto">Cerrar Sesión</button>
-                        </div>
+        <button type="button" onClick={handleLogout} className=" bg-dark d-flex ml-auto">
+                                <FaSignOutAlt /> Cerrar Sesión
+                            </button>
                     </div>
                 </div>
             </nav>

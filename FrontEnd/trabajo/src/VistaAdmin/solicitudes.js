@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import { FaSignOutAlt } from 'react-icons/fa'
 
 const Solicitudes = () => {
   const location = useLocation();
@@ -99,9 +100,9 @@ const Solicitudes = () => {
                 </Link>
               </li>
             </ul>
-            <div>
-              <button type="button" onClick={handleLogout} className="btn btn-primary bg-dark d-flex ml-auto">Cerrar Sesión</button>
-            </div>
+            <button type="button" onClick={handleLogout} className=" bg-dark d-flex ml-auto">
+                                <FaSignOutAlt /> Cerrar Sesión
+                            </button>
           </div>
         </div>
       </nav>

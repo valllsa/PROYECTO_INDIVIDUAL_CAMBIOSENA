@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../Estilos/estilos.css';
+import { toast, ToastContainer } from 'react-toastify'; // Importa toast y ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos de react-toastify
+import '../Estilos/estilosAlerts.css'; // Estilos personalizados
 
 function RegistroCliente() {
   const [formData, setFormData] = useState({
@@ -26,12 +28,20 @@ function RegistroCliente() {
       });
 
       if (response.status === 201) {
-        alert("Solicitud enviada, espere la confirmación del administrador");
-        navigate("/"); 
+        // Notificación de éxito en verde
+        toast.success("Solicitud enviada, espere la confirmación del administrador", {
+          className: 'toast-success', // Clase personalizada para éxito
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 3000); // Redirige después de 3 segundos
       }
     } catch (error) {
       console.error(error);
-      alert("Ocurrió un error al enviar la solicitud");
+      // Notificación de error en rojo
+      toast.error("Ocurrió un error al enviar la solicitud", {
+        className: 'toast-error', // Clase personalizada para error
+      });
     }
   };
 
@@ -44,62 +54,67 @@ function RegistroCliente() {
   };
 
   return (
-    <div className="login-container">
-        <div>
-          <h2>Enviar solicitud para creación de cuenta</h2>
-          <form onSubmit={enviar}>
-            <div >
-              <input
-                type="text"
-                className="form-control bg-white text-dark border-secondary"
-                name="Nombre"
-                required
-                placeholder="Nombre"
-                value={formData.Nombre}
-                onChange={handleChange}
-              />
-            </div>
-            <div >
-              <input
-                type="number"
-                className="form-control bg-whit text-dark border-secondary"
-                name="NumeroDocumento"
-                required
-                placeholder="Número Documento"
-                value={formData.NumeroDocumento}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                className="form-control bg-white text-dark border-secondary"
-                name="Teléfono"
-                required
-                placeholder="Número Telefónico"
-                value={formData.Teléfono}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <input
-                type="email"
-                className="form-control bg-white text-dark border-secondary"
-                name="Correo"
-                required
-                placeholder="Correo Electrónico"
-                value={formData.Correo}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <button type="submit" className="btn btn-light btn-block bg-gray">
-                Enviar solicitud
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+    <div className="register">
+        <h2>Enviar solicitud para creación de cuenta</h2>
+        <form onSubmit={enviar}>
+          <div>
+            <input
+              type="text"
+              className="form-control bg-white text-dark border-secondary"
+              name="Nombre"
+              required
+              placeholder="Nombre"
+              value={formData.Nombre}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <input
+              type="number"
+              className="form-control bg-whit text-dark border-secondary"
+              name="NumeroDocumento"
+              required
+              placeholder="Número Documento"
+              value={formData.NumeroDocumento}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <input
+              type="number"
+              className="form-control bg-white text-dark border-secondary"
+              name="Teléfono"
+              required
+              placeholder="Número Telefónico"
+              value={formData.Teléfono}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <input
+              type="email"
+              className="form-control bg-white text-dark border-secondary"
+              name="Correo"
+              required
+              placeholder="Correo Electrónico"
+              value={formData.Correo}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <button type="submit" className="btn btn-light btn-block bg-gray">
+              Enviar solicitud
+            </button>
+          </div>
+        </form>
+
+      {/* Contenedor para las notificaciones */}
+      <ToastContainer 
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar
+      />
+    </div>
   );
 };
 

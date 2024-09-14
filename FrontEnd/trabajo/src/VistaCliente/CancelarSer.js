@@ -2,25 +2,27 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
 import '../Estilos/estilos.css';
+import { FaSignOutAlt } from 'react-icons/fa'
 
 const CancelarSer = () => {
   const location = useLocation();
   const [alquileres, setAlquileres] = useState([]);
   const [alquilerSeleccionado, setAlquilerSeleccionado] = useState('');
   const [estadoCancelacion, setEstadoCancelacion] = useState('');
+  const [clienteId, setClienteId] = useState('d019'); // Suponiendo que el ID del cliente logueado es 'd019'
 
   useEffect(() => {
     fetchAlquileres();
-  }, []);
+  }, [clienteId]);
 
   const fetchAlquileres = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/AlquilarCam");
-      console.log("Alquileres recibidos:", response.data);
-      setAlquileres(response.data);
+      const clienteResponse = await axios.get(`http://localhost:4000/Cliente/${clienteId}`);
+      const clienteData = clienteResponse.data;
+      setAlquileres(clienteData.Alquileres);
     } catch (error) {
-      console.error("Error al obtener los alquileres:", error);
-      setEstadoCancelacion('Error al obtener los alquileres.');
+      console.error("Error al obtener los alquileres del cliente:", error);
+      setEstadoCancelacion('Error al obtener los alquileres del cliente.');
     }
   };
 
@@ -45,8 +47,15 @@ const CancelarSer = () => {
     }
 
     try {
-      await axios.post("http://localhost:4000/AlquilarCam", { 
-        idAlquiler: alquilerSeleccionado 
+      // Actualizar el estado del cliente
+      await axios.put(`http://localhost:4000/Cliente/${clienteId}`, {
+        Alquileres: alquileres.filter(a => a.id !== alquilerSeleccionado)
+      });
+
+      // Actualizar el estado del camión
+      await axios.put(`http://localhost:4000/Camiones/${Matricula}`, {
+        CargaActual: 0,
+        Estado: 'Disponible'
       });
 
       setAlquileres(prevAlquileres =>
@@ -87,9 +96,9 @@ const CancelarSer = () => {
                 </Link>
               </li>
             </ul>
-            <div>
-              <button type="button" onClick={handleLogout} className="btn btn-primary bg-dark d-flex ml-auto">Cerrar Sesión</button>
-            </div>
+            <button type="button" onClick={handleLogout} className=" bg-dark d-flex ml-auto">
+                                <FaSignOutAlt /> Cerrar Sesión
+                            </button>
           </div>
         </div>
       </nav>

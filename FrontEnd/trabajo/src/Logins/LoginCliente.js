@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../Estilos/estilos.css';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify'; // Importa toast y ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos de react-toastify
+import '../Estilos/estilosAlerts.css'; // Para los estilos personalizados
 
 function LoginCliente() {
   const [formData, setFormData] = useState({
@@ -21,17 +24,25 @@ function LoginCliente() {
 
         if (usuario && usuario.Contraseña === formData.Contraseña) {
           localStorage.setItem('cliente', JSON.stringify(usuario));
-          alert("Éxito al iniciar sesión");
+          toast.success("Éxito al iniciar sesión", {
+            className: 'toast-success', // Clase personalizada para éxito
+          });
           navigate('/BienvenidaCliente');
         } else {
-          alert("Contraseña incorrecta");
+          toast.error("Contraseña incorrecta", {
+            className: 'toast-error', // Clase personalizada para error
+          });
         }
       } else {
-        alert("Usuario no encontrado");
+        toast.warning("Usuario no encontrado", {
+          className: 'toast-warning', // Clase personalizada para advertencia
+        });
       }
     } catch (error) {
       console.error(error);
-      alert("Ocurrió un error al intentar iniciar sesión. Por favor, intente nuevamente.");
+      toast.error("Ocurrió un error al intentar iniciar sesión", {
+        className: 'toast-error', // Clase personalizada para error
+      });
     }
   };
 
@@ -47,7 +58,7 @@ function LoginCliente() {
   };
 
   return (
-    <div className="login-container">
+    <div className="logins">
       <button onClick={goToWelcomePage} className="back-button">
         &larr; Volver
       </button>
@@ -77,6 +88,13 @@ function LoginCliente() {
       <div className="register-link">
         <p>¿No tienes una cuenta? <Link to="/registroCliente">¡Regístrate aquí!</Link></p>
       </div>
+      
+      {/* Contenedor para las notificaciones */}
+      <ToastContainer 
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar
+      />
     </div>
   );
 }

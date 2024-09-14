@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation} from 'react-router-dom'; // Importa Link
+import { FaSignOutAlt } from 'react-icons/fa'
 
 
 const BienvenidaAdmin = () => { 
@@ -48,7 +49,9 @@ const BienvenidaAdmin = () => {
             </li>
         </ul>
                         <div >
-                            <button type="button" onClick={handleLogout} className="btn btn-primary bg-dark d-flex ml-auto">Cerrar Sesión</button>
+                            <button type="button" onClick={handleLogout} className=" bg-dark d-flex ml-auto">
+                                <FaSignOutAlt /> Cerrar Sesión
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../Estilos/estilos.css';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify'; // Importa toast y ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos de react-toastify
+import '../Estilos/estilosAlerts.css'; // Para los estilos personalizados
 
-function LoginCliente() {
+function LoginTrans() {
   const [formData, setFormData] = useState({
     Usuario: '',
     Contrasena: ''
   });
   const navigate = useNavigate();
 
-  
   const enviar = async (e) => {
     e.preventDefault();
 
@@ -19,25 +21,31 @@ function LoginCliente() {
       const response = await axios.get(`http://localhost:4000/Users_Trans?Usuario=${formData.Usuario}`);
       
       if (response.data.length > 0) {
-        
         const usuario = response.data.find(user => user.Usuario === formData.Usuario);
 
         if (usuario && usuario.Contrasena === formData.Contrasena) {
-          alert("Éxito al iniciar sesión");
+          toast.success("Éxito al iniciar sesión", {
+            className: 'toast-success', // Clase personalizada para éxito
+          });
           navigate('/MainTrans');
         } else {
-          alert("Contraseña incorrecta");
+          toast.error("Contraseña incorrecta", {
+            className: 'toast-error', // Clase personalizada para error
+          });
         }
       } else {
-        alert("Usuario no encontrado");
+        toast.warning("Usuario no encontrado", {
+          className: 'toast-warning', // Clase personalizada para advertencia
+        });
       }
     } catch (error) {
       console.error(error);
-      alert("Ocurrió un error al intentar iniciar sesión");
+      toast.error("Ocurrió un error al intentar iniciar sesión", {
+        className: 'toast-error', // Clase personalizada para error
+      });
     }
   };
 
- 
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -50,7 +58,7 @@ function LoginCliente() {
   };
 
   return (
-    <div className="login-container">
+    <div className="logins">
       <button onClick={goToWelcomePage} className="back-button">
         &larr; Volver
       </button>
@@ -76,8 +84,15 @@ function LoginCliente() {
         />
         <button type="submit">Ingresar</button>
       </form>
-      </div>
+
+      {/* Contenedor para las notificaciones */}
+      <ToastContainer 
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar
+      />
+    </div>
   );
 }
 
-export default LoginCliente;
+export default LoginTrans;

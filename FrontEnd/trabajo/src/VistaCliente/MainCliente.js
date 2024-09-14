@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../Estilos/estilos.css';
+import { FaSignOutAlt } from 'react-icons/fa';
+
 
 const ClienteInterfaz = () => {
   const location = useLocation();
@@ -13,85 +17,90 @@ const ClienteInterfaz = () => {
   const [camionRecomendado, setCamionRecomendado] = useState(null);
   const [clientInfo, setClientInfo] = useState({});
 
-  useEffect(() => {
-    fetchCamiones();
-  }, []);
-
-  const validateMatricula = (matricula) => {
-    return /^[A-Z]{3}\d{3}$/.test(matricula);
-  };
-
+  // Función para obtener camiones
   const fetchCamiones = async () => {
     try {
       const { data } = await axios.get("http://localhost:4000/ListaCam");
-      console.log("Camiones recibidos:", data);
       setCamiones(data);
 
-      const clientResponse = await axios.get(`http://localhost:4000/api/cliente/${data[0].id}`);
-      setClientInfo(clientResponse.data);
+      if (data.length > 0) {
+        const clientResponse = await axios.get(`http://localhost:4000/api/cliente/${data[0].id}`);
+        setClientInfo(clientResponse.data);
+      }
     } catch (error) {
       console.error("Error al obtener los camiones:", error);
     }
   };
 
+  useEffect(() => {
+    fetchCamiones();
+  }, []);
+
+  const validateMatricula = (matricula) => /^[A-Z]{3}\d{3}$/.test(matricula);
+
   const recomendarCamion = (peso) => {
-    const camion = camiones.find(c => parseInt(c.Capacidad) >= parseInt(peso) && c.Estado === 'Disponible');
-    setCamionRecomendado(camion || 'No hay camiones disponibles para este peso.');
+    const camion = peso <= 15000
+      ? camiones.find(c => c.Matricula === 'ABC123' && c.Estado === 'Disponible')
+      : camiones.find(c => c.Matricula === 'MKJ099' && c.Estado === 'Disponible');
+    setCamionRecomendado(camion || null);
   };
 
   const handleSolicitudSubmit = async () => {
     if (!Matricula || !carga || !destino) {
-      alert('Por favor, complete todos los campos antes de enviar la solicitud.');
+      toast.error('Por favor, complete todos los campos antes de enviar la solicitud.');
       return;
     }
 
     if (!validateMatricula(Matricula)) {
-      alert('Por favor, ingrese una matrícula válida (AAA123).');
+      toast.error('Por favor, ingrese una matrícula válida (AAA123).');
+      return;
+    }
+
+    const cargaNumero = parseFloat(carga);
+    if (isNaN(cargaNumero) || cargaNumero <= 0) {
+      toast.error('Por favor, ingrese una carga válida.');
+      return;
+    }
+
+    const camionSeleccionado = camiones.find(c => c.Matricula === Matricula);
+    if (!camionSeleccionado) {
+      toast.error('El camión seleccionado no existe.');
+      setSolicitudEstado('El camión seleccionado no existe.');
+      return;
+    }
+
+    if (camionSeleccionado.Estado !== 'Disponible') {
+      toast.error('El camión seleccionado ya está alquilado.');
+      return;
+    }
+
+    if (cargaNumero > camionSeleccionado.Capacidad) {
+      toast.error('La carga excede la capacidad del camión seleccionado.');
       return;
     }
 
     try {
-      // Envía la solicitud al servidor
-      const response = await axios.post("http://localhost:4000/Cliente", {
-        Matricula,
-        carga,
-        destino
+      await axios.post("http://localhost:4000/Cliente", { Matricula, carga, destino });
+      await axios.patch(`http://localhost:4000/ListaCam/${camionSeleccionado.id}`, {
+        Estado: "Ocupado",
+        CargaActual: cargaNumero
       });
 
-      // Actualiza el estado del camión en la API del cliente
-      await axios.post(`http://localhost:4000/api/cliente/${response.data.id}`, {
-        Matricula: Matricula,
-        Carga: carga,
-        Destino: destino,
-        FechaInicio: new Date().toISOString(),
-        FechaFin: null
-      });
-
-      // Actualiza el estado del camión en la lista local
-      await axios.patch(`http://localhost:4000/ListaCam/${Matricula}`, {
-        Estado: "Ocupado"
-      });
-
-      setSolicitudEstado('Solicitud realizada con éxito. El camión ahora está Ocupado.');
-
-      // Actualiza la información del cliente en la interfaz
-      const updatedClientInfo = await axios.get(`http://localhost:4000/Cliente/${response.data.id}`);
-      setClientInfo(updatedClientInfo.data);
+      toast.success('Solicitud realizada con éxito. El camión ahora está Ocupado.');
+      fetchCamiones(); // Actualiza la lista de camiones después de la solicitud
     } catch (error) {
       console.error("Error al procesar la solicitud:", error.response?.data || error.message);
-      if (error.response?.status === 404) {
-        setSolicitudEstado('El camión seleccionado no existe o ya está alquilado.');
-      } else if (error.response?.status === 500) {
-        setSolicitudEstado('Ha ocurrido un error en el servidor. Por favor, intente nuevamente.');
-      } else {
-        setSolicitudEstado('Ha ocurrido un error al procesar su solicitud. Error: ' + (error.response?.data?.message || error.message));
-      }
+      const message = error.response?.status === 404
+        ? 'El camión seleccionado no existe o ya está alquilado.'
+        : error.response?.status === 500
+        ? 'Ha ocurrido un error en el servidor. Por favor, intente nuevamente.'
+        : 'Ha ocurrido un error al procesar su solicitud.';
+      setSolicitudEstado(message);
+      toast.error(message);
     }
   };
 
-  const handleLogout = () => {
-    window.location.href = '/PaginaBienvenida';
-  };
+  const handleLogout = () => window.location.href = '/PaginaBienvenida';
 
   return (
     <div>
@@ -116,13 +125,15 @@ const ClienteInterfaz = () => {
                 </Link>
               </li>
             </ul>
-            <div>
-              <button type="button" onClick={handleLogout} className="btn btn-primary bg-dark d-flex ml-auto">Cerrar Sesión</button>
+            <div className='button-logout'>
+            <button type="button" onClick={handleLogout} className=" bg-dark d-flex ml-auto">
+                                <FaSignOutAlt /> Cerrar Sesión
+                            </button>
             </div>
           </div>
         </div>
       </nav>
-
+  
       <div className="container">
         <h2 className="text-dark">Camiones Registrados</h2>
         <table className="camiones-table">
@@ -147,7 +158,7 @@ const ClienteInterfaz = () => {
             ))}
           </tbody>
         </table>
-
+  
         <div className="mt-4">
           <h2 className="text-dark">Alquilar Camión</h2>
           <div className="mb-3">
@@ -186,27 +197,26 @@ const ClienteInterfaz = () => {
               onChange={(e) => setDestino(e.target.value)} 
             />
           </div>
-
-          <button onClick={handleSolicitudSubmit} className="btn-registrar-camion">Alquilar camión</button>
-
-          {solicitudEstado && (
-            <div className="alert alert-info mt-3">
-              <h3>Estado de la Solicitud:</h3>
-              <p>{solicitudEstado}</p>
-            </div>
-          )}
-        </div>
-
-        <div className="mt-4">
-          <h2 className="text-dark">Recomendación de Camión</h2>
-          {camionRecomendado && (
-            <div className={`alert ${typeof camionRecomendado === 'string' ? 'alert-danger' : 'alert-success'}`}>
-              <h3>Camión Recomendado:</h3>
-              <p>{typeof camionRecomendado === 'string' ? camionRecomendado : camionRecomendado.Matricula}</p>
-            </div>
-          )}
+  
+          <button className="btn-registrar-camion" onClick={handleSolicitudSubmit}>Enviar Solicitud</button>
+  
+          <div className="alert-container">
+            {solicitudEstado && (
+              <div className={`alert ${solicitudEstado.includes('éxito') ? 'alert-success' : 'alert-danger'}`} role="alert">
+                {solicitudEstado}
+              </div>
+            )}
+  
+            {camionRecomendado && (
+              <div className="alert alert-info">
+                <strong>Camión Recomendado:</strong> {camionRecomendado.Matricula} - Capacidad: {camionRecomendado.Capacidad} kg
+              </div>
+            )}
+          </div>
         </div>
       </div>
+  
+      <ToastContainer />
     </div>
   );
 };

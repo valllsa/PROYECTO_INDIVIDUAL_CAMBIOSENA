@@ -42,20 +42,51 @@
       "Alquileres": []
     }
   ],
-  "Solicitudes": [],
+  "Solicitudes": [
+    {
+      "id": "b572",
+      "Nombre": "gyttr",
+      "NumeroDocumento": "0987664",
+      "Teléfono": "12345678",
+      "Correo": "valerizambrano0@gmail.com"
+    },
+    {
+      "id": "277d",
+      "Nombre": "gfrgh",
+      "NumeroDocumento": "123456",
+      "Teléfono": "123456789",
+      "Correo": "dairon_chapid@soy.sena.edu.co"
+    },
+    {
+      "id": "404f",
+      "Nombre": "hvgfcdf",
+      "NumeroDocumento": "12345678098765",
+      "Teléfono": "12345678",
+      "Correo": "daironchap@gmail.com"
+    },
+    {
+      "id": "13b6",
+      "Nombre": "vgcfdxc",
+      "NumeroDocumento": "12345678",
+      "Teléfono": "0987654",
+      "Correo": "valsa@valsa"
+    }
+  ],
   "ListaCam": [
     {
-      "id": "8e2b",
-      "Matricula": "MKJ099",
-      "Capacidad": "20000",
-      "Gasolina": "0.30",
+      "id": "9f44",
+      "Matricula": "LMN987",
+      "Capacidad": "50000",
+      "Gasolina": "0.60",
+      "CargaActual": "",
       "Estado": "Disponible"
     },
     {
-      "id": "12bd",
+      "id": "d8b6",
       "Matricula": "ABC123",
-      "Capacidad": "15000",
-      "Gasolina": "0.25",
+      "Capacidad": "50000",
+      "Gasolina": "0.60",
+      "CargaActual": "",
       "Estado": "Disponible"
     }
   ],

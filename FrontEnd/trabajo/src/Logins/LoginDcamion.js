@@ -50,7 +50,7 @@ function LoginDCamion() {
 
 
   return (
-    <div className="login-container">
+    <div className="logins">
       <button onClick={goToWelcomePage} className="back-button">
         &larr; Volver
       </button>

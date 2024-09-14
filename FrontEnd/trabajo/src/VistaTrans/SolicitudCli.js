@@ -8,7 +8,7 @@ const SolicitudCli = () => {
 
     useEffect(() => {
         // Llamada a la API para obtener las solicitudes
-        fetch('http://localhost:4000/AlquilarCam')
+        fetch('http://localhost:4000/ListaCam')
             .then(response => response.json())
             .then(data => setSolicitudes(data))
             .catch(error => console.error('Error:', error));

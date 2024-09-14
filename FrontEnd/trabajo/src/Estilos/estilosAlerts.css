@@ -1,0 +1,26 @@
+/* estilosAlerts.css */
+
+/* Estilo para advertencia (usuario no encontrado) */
+.toast-warning {
+    background-color: #ecde73 !important; /* Color amarillo */
+    color: #000000 !important; /* Texto negro */
+    font-weight: bold; /* Texto en negrita */
+    border-radius: 8px !important; /* Bordes redondeados */
+  }
+  
+  /* Estilo para error (contraseña incorrecta) */
+  .toast-error {
+    background-color: #f08888 !important; /* Color rojo */
+    color: #000000 !important; /* Texto blanco */
+    font-weight: bold; /* Texto en negrita */
+    border-radius: 8px !important; /* Bordes redondeados */
+  }
+  
+  /* Estilo para éxito (inicio de sesión exitoso) */
+  .toast-success {
+    background-color: #81e681 !important; /* Color verde */
+    color: #000000 !important; /* Texto blanco */
+    font-weight: bold; /* Texto en negrita */
+    border-radius: 8px !important; /* Bordes redondeados */
+  }
+  
