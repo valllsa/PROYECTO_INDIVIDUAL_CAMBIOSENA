@@ -11,7 +11,7 @@ const EstadoCamion = () => {
     const [mensaje, setMensaje] = useState('');
 
     useEffect(() => {
-        // Llamada a la API para obtener la lista de camiones
+        //API para obtener la lista de camiones que estan registrados en esta Api 
         fetch('http://localhost:4000/ListaCam')
             .then(response => response.json())
             .then(data => setCamiones(data))
@@ -50,7 +50,7 @@ const EstadoCamion = () => {
                                 </Link>
                             </li>
                         </ul>
-                        <div>
+                        <div className='button-logout'>
                             <button type="button" onClick={handleLogout} className="btn btn-primary bg-dark d-flex ml-auto">Cerrar Sesión</button>
                         </div>
                     </div>

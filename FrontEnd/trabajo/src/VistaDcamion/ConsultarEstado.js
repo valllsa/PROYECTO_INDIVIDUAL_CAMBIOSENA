@@ -61,9 +61,11 @@ const ConsultarEstado = () => {
                 </Link>
               </li>
             </ul>
+            <div className='button-logout'>
             <button type="button" onClick={handleLogout} className=" bg-dark d-flex ml-auto">
                                 <FaSignOutAlt /> Cerrar Sesión
                             </button>
+                            </div>
           </div>
         </div>
       </nav>

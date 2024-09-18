@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify'; // Importa toast y ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos de react-toastify
-import '../Estilos/estilosAlerts.css'; // Estilos personalizados
+import { toast, ToastContainer } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
+import '../Estilos/estilosAlerts.css'; 
 
 function RegistroCliente() {
   const [formData, setFormData] = useState({
@@ -108,7 +108,6 @@ function RegistroCliente() {
           </div>
         </form>
 
-      {/* Contenedor para las notificaciones */}
       <ToastContainer 
         position="top-center"
         autoClose={3000}

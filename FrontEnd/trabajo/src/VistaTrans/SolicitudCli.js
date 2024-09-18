@@ -41,7 +41,7 @@ const SolicitudCli = () => {
                                 </Link>
                             </li>
                         </ul>
-                        <div>
+                        <div className='button-logout'>
                             <button type="button" onClick={handleLogout} className="btn btn-primary bg-dark d-flex ml-auto">Cerrar Sesión</button>
                         </div>
                     </div>

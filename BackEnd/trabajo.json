@@ -40,6 +40,12 @@
       "Usuario": "Valda",
       "Contraseña": "1014667051",
       "Alquileres": []
+    },
+    {
+      "id": "f1f7",
+      "Matricula": "LMN987",
+      "carga": "50000",
+      "destino": "Nariño"
     }
   ],
   "Solicitudes": [
@@ -78,8 +84,8 @@
       "Matricula": "LMN987",
       "Capacidad": "50000",
       "Gasolina": "0.60",
-      "CargaActual": "",
-      "Estado": "Disponible"
+      "CargaActual": 50000,
+      "Estado": "Ocupado"
     },
     {
       "id": "d8b6",

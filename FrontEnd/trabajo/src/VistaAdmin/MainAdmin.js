@@ -171,7 +171,7 @@ const MainAdmin = () => {
                                 </Link>
                             </li>
                         </ul>
-                        <div>
+                        <div className='button-logout'>
                            <button type="button" onClick={handleLogout} className=" bg-dark d-flex ml-auto">
                                 <FaSignOutAlt /> Cerrar Sesión
                             </button>

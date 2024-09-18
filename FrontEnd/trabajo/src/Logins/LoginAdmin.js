@@ -10,7 +10,7 @@ function LoginAdmin() {
   const [formData, setFormData] = useState({
     Usuario: '',
     Contrasena: '',
-    recuerdame: false, // Estado para el checkbox
+    recuerdame: false, 
   });
   const navigate = useNavigate();
 
