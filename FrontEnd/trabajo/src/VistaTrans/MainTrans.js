@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import '../Estilos/estilos.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Asegúrate de importar los estilos
 
 const EstadoCamion = () => {
     const location = useLocation();
@@ -11,15 +12,39 @@ const EstadoCamion = () => {
     const [mensaje, setMensaje] = useState('');
 
     useEffect(() => {
-        //API para obtener la lista de camiones que estan registrados en esta Api 
+        // API para obtener la lista de camiones que están registrados en esta API
         fetch('http://localhost:4000/ListaCam')
             .then(response => response.json())
             .then(data => setCamiones(data))
-            .catch(error => console.error('Error al obtener camiones:', error));
+            .catch(error => {
+                console.error('Error al obtener camiones:', error);
+                toast.error('Error al obtener camiones.');
+            });
     }, []);
 
     const handleReporteSubmit = () => {
+        if (!camionSeleccionado || !estadoCarga || !estadoCamion) {
+            toast.error('Por favor, completa todos los campos.');
+            return;
+        }
 
+        // Aquí iría la lógica para enviar el reporte a la API, por ejemplo:
+        // fetch('http://localhost:4000/enviarReporte', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ camionSeleccionado, estadoCarga, estadoCamion })
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //   toast.success('Reporte enviado con éxito.');
+        //   setMensaje('Reporte enviado con éxito.');
+        // })
+        // .catch(error => {
+        //   toast.error('Error al enviar el reporte.');
+        // });
+
+        // Simulación de envío exitoso
+        toast.success('Reporte enviado con éxito.');
         setMensaje('Reporte enviado con éxito.');
     };
 
@@ -113,6 +138,9 @@ const EstadoCamion = () => {
                     {mensaje && <p className="mt-2">{mensaje}</p>}
                 </div>
             </div>
+
+            {/* ToastContainer para mostrar las alertas */}
+            <ToastContainer />
         </div>
     );
 };

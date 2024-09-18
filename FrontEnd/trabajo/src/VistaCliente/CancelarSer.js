@@ -1,77 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../Estilos/estilos.css';
-import { FaSignOutAlt } from 'react-icons/fa'
+import { FaSignOutAlt } from 'react-icons/fa';
 
 const CancelarSer = () => {
   const location = useLocation();
   const [alquileres, setAlquileres] = useState([]);
   const [alquilerSeleccionado, setAlquilerSeleccionado] = useState('');
-  const [estadoCancelacion, setEstadoCancelacion] = useState('');
-  const [clienteId, setClienteId] = useState('d019'); // Suponiendo que el ID del cliente logueado es 'd019'
+  const [estadoCancelacion, setEstadoCancelacion] = useState(null);
 
   useEffect(() => {
     fetchAlquileres();
-  }, [clienteId]);
+  }, []);
 
   const fetchAlquileres = async () => {
     try {
-      const clienteResponse = await axios.get(`http://localhost:4000/Cliente/${clienteId}`);
-      const clienteData = clienteResponse.data;
-      setAlquileres(clienteData.Alquileres);
+      const response = await axios.get("http://localhost:4000/ListaCam");
+      setAlquileres(response.data);
     } catch (error) {
-      console.error("Error al obtener los alquileres del cliente:", error);
-      setEstadoCancelacion('Error al obtener los alquileres del cliente.');
+      toast.error("Error al obtener los alquileres.");
+      console.error("Error al obtener los alquileres:", error);
     }
   };
 
   const handleCancelacionSubmit = async () => {
     if (!alquilerSeleccionado) {
-      window.alert('Por favor, seleccione un alquiler antes de cancelar.');
+      toast.error('Por favor, seleccione un alquiler antes de cancelar.');
       return;
     }
 
     const alquiler = alquileres.find(a => a.id === alquilerSeleccionado);
-    const Matricula = alquiler?.Matricula;
-
-    // Verificar si la cancelación se puede realizar con 4 días de anticipación
-    const fechaActual = new Date();
-    const fechaInicioAlquiler = new Date(alquiler?.fechaInicio);
-    const fechaLimiteCancelacion = new Date(fechaInicioAlquiler);
-    fechaLimiteCancelacion.setDate(fechaLimiteCancelacion.getDate() - 4);
-
-    if (fechaActual > fechaLimiteCancelacion) {
-      window.alert('No se puede cancelar el alquiler. Se requiere al menos 4 días de anticipación.');
-      return;
-    }
+    const camionMatricula = alquiler?.camionMatricula;
 
     try {
-      // Actualizar el estado del cliente
-      await axios.put(`http://localhost:4000/Cliente/${clienteId}`, {
-        Alquileres: alquileres.filter(a => a.id !== alquilerSeleccionado)
-      });
-
-      // Actualizar el estado del camión
-      await axios.put(`http://localhost:4000/Camiones/${Matricula}`, {
-        CargaActual: 0,
-        Estado: 'Disponible'
+      await axios.post("http://localhost:4000/ListaCam", {
+        camionMatricula: camionMatricula,
       });
 
       setAlquileres(prevAlquileres =>
         prevAlquileres.filter(alquiler => alquiler.id !== alquilerSeleccionado)
       );
 
-      window.alert(`El alquiler del camión con matrícula ${Matricula} ha sido cancelado con éxito.`);
+      toast.success(`El alquiler del camión con matrícula ${camionMatricula} ha sido cancelado con éxito.`);
     } catch (error) {
       console.error("Error al cancelar el alquiler:", error);
-      window.alert('Error al cancelar el alquiler.');
+      toast.error('Error al cancelar el alquiler.');
     }
   };
 
   const handleLogout = () => {
     window.location.href = '/PaginaBienvenida';
   };
+
 
   return (
     <div>
@@ -80,26 +63,48 @@ const CancelarSer = () => {
           <div className="bienvenida-imagen-container">
             <img src="Images/camion.png" alt="Gestión de Camiones" className="Logo-navbar" />
           </div>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className={`nav-link custom-font-size ${location.pathname === '/MainCliente' ? 'active text-white' : ''}`} to="/MainCliente">
+                <Link
+                  className={`nav-link custom-font-size ${
+                    location.pathname === '/MainCliente' ? 'active text-white' : ''
+                  }`}
+                  to="/MainCliente"
+                >
                   Alquilar Camión
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link custom-font-size ${location.pathname === '/CancelarSer' ? 'active text-white' : ''}`} to="/CancelarSer">
+                <Link
+                  className={`nav-link custom-font-size ${
+                    location.pathname === '/CancelarSer' ? 'active text-white' : ''
+                  }`}
+                  to="/CancelarSer"
+                >
                   Cancelación de Servicios
                 </Link>
               </li>
             </ul>
-            <div className='button-logout'>
-            <button type="button" onClick={handleLogout} className=" bg-dark d-flex ml-auto">
-                                <FaSignOutAlt /> Cerrar Sesión
-                            </button>
+            <div className="button-logout">
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="bg-dark d-flex ml-auto"
+              >
+                <FaSignOutAlt /> Cerrar Sesión
+              </button>
             </div>
           </div>
         </div>
@@ -108,18 +113,32 @@ const CancelarSer = () => {
       <div className="container">
         <h2 className="text-dark">Cancelar Alquiler</h2>
         <div className="mb-3">
-          <label htmlFor="alquiler" className="form-label text-dark">Seleccionar Alquiler:</label>
-          <select id="alquiler" className="form-select bg-white text-dark select-lg" value={alquilerSeleccionado} onChange={(e) => setAlquilerSeleccionado(e.target.value)}>
+          <label htmlFor="alquiler" className="form-label text-dark">
+            Seleccionar Alquiler:
+          </label>
+          <select
+            id="alquiler"
+            className="form-select bg-white text-dark select-lg"
+            value={alquilerSeleccionado}
+            onChange={e => setAlquilerSeleccionado(e.target.value)}
+          >
             <option value="">Seleccione un alquiler</option>
-            {alquileres.map((alquiler) => (
-              <option key={alquiler.id} value={alquiler.id}>
-                {alquiler.Matricula} - Destino: {alquiler.destino} - Carga: {alquiler.carga} kg
-              </option>
-            ))}
+            {alquileres.length > 0 ? (
+              alquileres.map(alquiler => (
+                <option key={alquiler.id} value={alquiler.id}>
+                  {alquiler.Matricula} - Destino: {alquiler.destino} - Carga: {alquiler.carga} kg
+                </option>
+              ))
+            ) : (
+              <option disabled>No hay alquileres disponibles</option>
+            )}
           </select>
         </div>
-        
-        <button onClick={handleCancelacionSubmit} className="btn-registrar-camion">Cancelar Alquiler</button>
+
+        <button onClick={handleCancelacionSubmit} className="btn-registrar-camion">
+          Cancelar Alquiler
+        </button>
+        <ToastContainer />
       </div>
     </div>
   );

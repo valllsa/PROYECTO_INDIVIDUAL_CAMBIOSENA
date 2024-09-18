@@ -179,8 +179,51 @@ const MainAdmin = () => {
                     </div>
                 </div>
             </nav>
+            <div className="d-flex flex-row h-100">
+            {/* Sidebar */}
+            <div>
+                <div className='sidebar'>
+                <div
+                    className="d-flex flex-column p-3 text-white bg-dark h-100"
+                    style={{ width: 280 }}
+                >
+                    <hr />
+                    <ul className="nav nav-pills flex-column mb-auto">
+                        <li className="nav-item">
+                            <Link
+                                
+                            >
+                                Camiones
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                            >
+                                Clientes
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                            >
+                                Transportadores
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                            >
+                                Dueños de Camiones
+                            </Link>
+                        </li>
+                    </ul>
+                    <hr />
+                </div>
+                </div>
+            </div>
+
+            {/* Contenido principal */}
             <div className="container">
                 <h2>Gestionar Camiones</h2>
+                {/* Formulario de camiones */}
                 <form onSubmit={enviar}>
                     <input
                         type="text"
@@ -211,6 +254,7 @@ const MainAdmin = () => {
                     </button>
                 </form>
 
+                {/* Tabla de camiones */}
                 <h2>Camiones Agregados</h2>
                 <table className="camiones-table">
                     <thead>
@@ -247,7 +291,9 @@ const MainAdmin = () => {
                     </tbody>
                 </table>
             </div>
-            <ToastContainer />
+        </div>
+
+        <ToastContainer />
         </div>
     );
 };

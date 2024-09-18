@@ -46,6 +46,12 @@
       "Matricula": "LMN987",
       "carga": "50000",
       "destino": "Nariño"
+    },
+    {
+      "id": "2b1a",
+      "Matricula": "ABC123",
+      "carga": "400",
+      "destino": "hu"
     }
   ],
   "Solicitudes": [
@@ -92,9 +98,23 @@
       "Matricula": "ABC123",
       "Capacidad": "50000",
       "Gasolina": "0.60",
-      "CargaActual": "",
-      "Estado": "Disponible"
+      "CargaActual": 400,
+      "Estado": "Ocupado"
+    },
+    {
+      "id": "2fdc"
+    },
+    {
+      "id": "ef48"
     }
   ],
-  "Mantenimiento": []
+  "Mantenimiento": [
+    {
+      "id": "2d4f",
+      "camionSeleccionado": "LMN987",
+      "fechaUltimoMantenimiento": "2024-09-18",
+      "tipoMantenimiento": "Cambio de llantas",
+      "observaciones": "explotaron"
+    }
+  ]
 }

@@ -87,7 +87,7 @@ const ConsultarEstado = () => {
               {camiones.map((camion) => (
                 <tr key={camion.id}>
                   <td>{camion.Matricula}</td>
-                  <td>{camion.alquilado ? 'Alquilado' : 'Disponible'}</td>
+                  <td>{camion.Estado }</td>
                 </tr>
               ))}
             </tbody>

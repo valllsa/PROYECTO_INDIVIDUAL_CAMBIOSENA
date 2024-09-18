@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SolicitudCli = () => {
     const location = useLocation();
@@ -8,10 +9,17 @@ const SolicitudCli = () => {
 
     useEffect(() => {
         // Llamada a la API para obtener las solicitudes
-        fetch('http://localhost:4000/ListaCam')
+        fetch('http://localhost:4000/Cliente')
             .then(response => response.json())
-            .then(data => setSolicitudes(data))
-            .catch(error => console.error('Error:', error));
+            .then(data => {
+                console.log('Datos recibidos:', data); // Agrega esto para verificar los datos recibidos
+                setSolicitudes(data);
+                toast.success('Solicitudes cargadas exitosamente.');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                toast.error('Error al cargar las solicitudes.');
+            });
     }, []);
 
     const handleLogout = () => {
@@ -72,6 +80,9 @@ const SolicitudCli = () => {
                     <p>No hay solicitudes disponibles.</p>
                 )}
             </div>
+
+            {/* ToastContainer para mostrar las alertas */}
+            <ToastContainer />
         </div>
     );
 };

@@ -362,3 +362,27 @@ button:hover {
     background-color: #616161; 
     color: #ffffff; 
 }
+
+/* ESTILOS DE SIDEBAR */
+/* estilos.css */
+
+.d-flex {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.container-fluid {
+    padding: 0; /* Quita cualquier padding en el contenido principal */
+}
+
+.bg-dark {
+    margin-right: 0;
+    margin-left: 0; /* Asegúrate que no haya espacios adicionales */
+}
+.sidebar {
+    margin-top: 0;
+}
