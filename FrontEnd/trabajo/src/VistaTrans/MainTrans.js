@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Asegúrate de importar los estilos
+import axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EstadoCamion = () => {
     const location = useLocation();
@@ -9,43 +10,43 @@ const EstadoCamion = () => {
     const [camionSeleccionado, setCamionSeleccionado] = useState('');
     const [estadoCarga, setEstadoCarga] = useState('');
     const [estadoCamion, setEstadoCamion] = useState('');
+    const [fechaReporte, setFechaReporte] = useState(''); // Estado para la fecha del reporte
     const [mensaje, setMensaje] = useState('');
 
     useEffect(() => {
-        // API para obtener la lista de camiones que están registrados en esta API
-        fetch('http://localhost:4000/ListaCam')
-            .then(response => response.json())
-            .then(data => setCamiones(data))
+        // API para obtener la lista de camiones
+        axios.get('http://localhost:4000/Cliente')
+            .then(response => setCamiones(response.data))
             .catch(error => {
                 console.error('Error al obtener camiones:', error);
                 toast.error('Error al obtener camiones.');
             });
     }, []);
 
-    const handleReporteSubmit = () => {
-        if (!camionSeleccionado || !estadoCarga || !estadoCamion) {
+    const handleReporteSubmit = async () => {
+        if (!camionSeleccionado || !estadoCarga || !estadoCamion || !fechaReporte) {
             toast.error('Por favor, completa todos los campos.');
             return;
         }
-
-        // Aquí iría la lógica para enviar el reporte a la API, por ejemplo:
-        // fetch('http://localhost:4000/enviarReporte', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ camionSeleccionado, estadoCarga, estadoCamion })
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //   toast.success('Reporte enviado con éxito.');
-        //   setMensaje('Reporte enviado con éxito.');
-        // })
-        // .catch(error => {
-        //   toast.error('Error al enviar el reporte.');
-        // });
-
-        // Simulación de envío exitoso
-        toast.success('Reporte enviado con éxito.');
-        setMensaje('Reporte enviado con éxito.');
+    
+        try {
+            // Enviar el reporte a la API usando axios
+            const response = await axios.post('http://localhost:4000/Reportes', {
+                camionSeleccionado: camionSeleccionado,
+                estadoCarga: estadoCarga,
+                estadoCamion: estadoCamion,
+                fechaReporte: fechaReporte // Enviar la fecha del reporte
+            });
+    
+            // Muestra la alerta correcta si la respuesta es exitosa
+            if (response.status === 200 || response.status === 201) {
+                toast.success('Reporte enviado con éxito.');
+                setMensaje('Reporte enviado con éxito.');
+            } 
+        } catch (error) {
+            console.error('Error al enviar el reporte:', error);
+            toast.error('Error al enviar el reporte.');
+        }
     };
 
     const handleLogout = () => {
@@ -64,12 +65,12 @@ const EstadoCamion = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
+                            <li className="nav-items">
                                 <Link className={`nav-link custom-font-size ${location.pathname === '/SolicitudCli' ? 'active text-white' : ''}`} aria-current="page" to="/SolicitudCli">
                                     Solicitudes
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-items">
                                 <Link className={`nav-link custom-font-size ${location.pathname === '/MainTrans' ? 'active text-white' : ''}`} to="/MainTrans">
                                     Operacion
                                 </Link>
@@ -103,6 +104,18 @@ const EstadoCamion = () => {
                             ))}
                         </select>
                     </div>
+                    <div style={{ marginTop: '15px' }}>
+                        <label htmlFor="fechaReporte" style={{ fontSize: '1.2rem', marginRight: '10px' }}>Fecha del Reporte:</label>
+                        <input
+                            type="date"
+                            id="fechaReporte"
+                            value={fechaReporte}
+                            onChange={(e) => setFechaReporte(e.target.value)}
+                            style={{ fontSize: '1.2rem', padding: '10px', width: '100%' }}
+                            className='bg-white'
+                        />
+                    </div>
+
 
                     <div style={{ marginTop: '15px' }}>
                         <label htmlFor="estadoCarga" style={{ fontSize: '1.2rem', marginRight: '10px' }}>Estado de la Carga:</label>
@@ -128,6 +141,8 @@ const EstadoCamion = () => {
                         />
                     </div>
 
+                    {/* Campo de fecha del reporte */}
+                   
                     <button
                         onClick={handleReporteSubmit}
                         className="btn-registrar-camion mt-3"

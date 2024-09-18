@@ -27,7 +27,7 @@ function LoginAdmin() {
           toast.success("Éxito al iniciar sesión", {
             className: 'toast-success',
           });
-          navigate('/BienvenidaAdmin');
+          navigate('/MainAdmin');
         } else {
           toast.error("Contraseña incorrecta", {
             className: 'toast-error',

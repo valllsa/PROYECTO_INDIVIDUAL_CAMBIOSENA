@@ -43,16 +43,16 @@ const ConsultarEstado = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+              <li className="nav-items">
                 <Link
-                  className={`nav-link custom-font-size ${location.pathname === '/GestionarMantenimiento' ? 'active text-white' : ''}`}
+                  className={`nav-link custom-font-size ${location.pathname === '/VerReportesCamiones' ? 'active text-white' : ''}`}
                   aria-current="page"
-                  to="/GestionarMantenimiento"
+                  to="/VerReportesCamiones"
                 >
-                  Gestión de Mantenimiento
+                  Reportes de los camiones
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-items">
                 <Link
                   className={`nav-link custom-font-size ${location.pathname === '/ConsultarEstado' ? 'active text-white' : ''}`}
                   to="/ConsultarEstado"
@@ -62,10 +62,10 @@ const ConsultarEstado = () => {
               </li>
             </ul>
             <div className='button-logout'>
-            <button type="button" onClick={handleLogout} className=" bg-dark d-flex ml-auto">
-                                <FaSignOutAlt /> Cerrar Sesión
-                            </button>
-                            </div>
+            <div className='button-logout'>
+                            <button type="button" onClick={handleLogout} className="btn btn-primary bg-dark d-flex ml-auto">Cerrar Sesión</button>
+                        </div>
+          </div>
           </div>
         </div>
       </nav>

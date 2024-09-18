@@ -6,7 +6,7 @@ import axios from 'axios';
 function LoginDCamion() {
   const [formData, setFormData] = useState({
     Usuario: '',
-    Contrasena: ''
+    Contraseña: ''
   });
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ function LoginDCamion() {
 
         if (usuario && usuario.Contrasena === formData.Contrasena) {
           alert("Éxito al iniciar sesión");
-          navigate('/GestionarMantenimiento');
+          navigate('/ConsultarEstado');
         } else {
           alert("Contraseña incorrecta");
         }
@@ -66,12 +66,12 @@ function LoginDCamion() {
            required
         />
         <input
-           value={formData.Contrasena}
+           value={formData.Contraseña}
            onChange={handleChange}
            type="password"
            className="form-control"
            placeholder="Contraseña"
-           name="Contrasena"
+           name="Contraseña"
            required
         />
         <button type="submit">Ingresar</button>

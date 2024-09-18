@@ -35,14 +35,9 @@ const BienvenidaCliente = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+              <li className="nav-itemS">
                 <Link className={`nav-link custom-font-size ${location.pathname === '/MainCliente' ? 'active text-white' : ''}`} to="/MainCliente">
                   Alquilar Camión
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className={`nav-link custom-font-size ${location.pathname === '/CancelarSer' ? 'active text-white' : ''}`} to="/CancelarSer">
-                  Cancelación de Servicios
                 </Link>
               </li>
             </ul>

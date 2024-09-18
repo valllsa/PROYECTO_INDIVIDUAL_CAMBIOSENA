@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #121212; 
+    background-color: #fffbfb; 
     color: #e0e0e0; 
 }
 .container {
@@ -383,6 +383,19 @@ button:hover {
     margin-right: 0;
     margin-left: 0; /* Asegúrate que no haya espacios adicionales */
 }
+
 .sidebar {
-    margin-top: 0;
+    background-color: rgb(52, 58, 64);
+}
+.navbar-nav {
+    display: flex;
+    justify-content: flex-end; /* Alinea los elementos hacia la derecha */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-iteml {
+    margin-left: 900px;
+    color: #ffffffb6; /* Espacio entre los elementos de la lista si es necesario */
 }

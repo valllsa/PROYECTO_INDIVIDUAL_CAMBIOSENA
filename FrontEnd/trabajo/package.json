@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "admin-lte": "3.2",
     "axios": "^1.7.5",
+    "bootstrap": "^5.3.3",
     "husky": "^9.1.1",
     "npm": "^10.8.2",
     "react": "^18.3.1",

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const SolicitudCli = () => {
@@ -14,11 +13,9 @@ const SolicitudCli = () => {
             .then(data => {
                 console.log('Datos recibidos:', data); // Agrega esto para verificar los datos recibidos
                 setSolicitudes(data);
-                toast.success('Solicitudes cargadas exitosamente.');
             })
             .catch(error => {
                 console.error('Error:', error);
-                toast.error('Error al cargar las solicitudes.');
             });
     }, []);
 
@@ -38,12 +35,12 @@ const SolicitudCli = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
+                            <li className="nav-items">
                                 <Link className={`nav-link custom-font-size ${location.pathname === '/SolicitudCli' ? 'active text-white' : ''}`} aria-current="page" to="/SolicitudCli">
                                     Solicitudes
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-items">
                                 <Link className={`nav-link custom-font-size ${location.pathname === '/MainTrans' ? 'active text-white' : ''}`} to="/MainTrans">
                                     Operacion
                                 </Link>
@@ -68,8 +65,8 @@ const SolicitudCli = () => {
                         </thead>
                         <tbody>
                             {solicitudes.map(solicitud => (
-                                <tr key={solicitud.camionMatricula}>
-                                    <td>{solicitud.camionMatricula}</td>
+                                <tr key={solicitud.Matricula}>
+                                    <td>{solicitud.Matricula}</td>
                                     <td>{solicitud.carga}</td>
                                     <td>{solicitud.destino}</td>
                                 </tr>
@@ -81,8 +78,6 @@ const SolicitudCli = () => {
                 )}
             </div>
 
-            {/* ToastContainer para mostrar las alertas */}
-            <ToastContainer />
         </div>
     );
 };

@@ -8,16 +8,22 @@
   ],
   "Users_Trans": [
     {
-      "Usuario": "TransportaSeguro",
-      "Contrasena": "SeguridadTrans",
+      "Nombre": "valery",
+      "Telefono": "3432423",
+      "Correo": "dairon_chapid@soy.sena.edu.co",
+      "Usuario": "TransportaSeguro1",
+      "Contrasena": "Pass1",
       "id": "dd9d"
     }
   ],
   "Users_DCamion": [
     {
-      "Usuario": "Propietariocm",
-      "Contrasena": "Dueñocamion24",
-      "id": "8836"
+      "Nombre": "Carlos",
+      "Telefono": "3123456789",
+      "Correo": "carlos@example.com",
+      "Usuario": "Propietariocm11",
+      "Contraseña": "Contraseña1",
+      "id": "8846"
     }
   ],
   "Cliente": [
@@ -28,30 +34,30 @@
       "Correo": "arm@arma",
       "NumeroDocumento": "52364686",
       "Usuario": "Armando Zambrano",
-      "Contraseña": "52364686",
-      "Alquileres": []
+      "Contraseña": "52364686"
     },
     {
       "id": "82da",
       "Nombre": "Valda",
-      "Telefono": "3467899",
+      "Teléfono": "346789990",
       "Correo": "valsa@valsa",
       "NumeroDocumento": "1014667051",
       "Usuario": "Valda",
-      "Contraseña": "1014667051",
-      "Alquileres": []
+      "Contraseña": "1014667051"
     },
     {
-      "id": "f1f7",
-      "Matricula": "LMN987",
-      "carga": "50000",
-      "destino": "Nariño"
-    },
-    {
-      "id": "2b1a",
+      "id": "7ef6",
       "Matricula": "ABC123",
-      "carga": "400",
-      "destino": "hu"
+      "carga": "700",
+      "destino": "hggf"
+    },
+    {
+      "id": "cf19",
+      "Nombre": "hvgfcdf",
+      "Correo": "daironchap@gmail.com",
+      "NumeroDocumento": "12345678098765",
+      "Usuario": "hvgfcdf",
+      "Contrasena": "12345678098765"
     }
   ],
   "Solicitudes": [
@@ -61,27 +67,6 @@
       "NumeroDocumento": "0987664",
       "Teléfono": "12345678",
       "Correo": "valerizambrano0@gmail.com"
-    },
-    {
-      "id": "277d",
-      "Nombre": "gfrgh",
-      "NumeroDocumento": "123456",
-      "Teléfono": "123456789",
-      "Correo": "dairon_chapid@soy.sena.edu.co"
-    },
-    {
-      "id": "404f",
-      "Nombre": "hvgfcdf",
-      "NumeroDocumento": "12345678098765",
-      "Teléfono": "12345678",
-      "Correo": "daironchap@gmail.com"
-    },
-    {
-      "id": "13b6",
-      "Nombre": "vgcfdxc",
-      "NumeroDocumento": "12345678",
-      "Teléfono": "0987654",
-      "Correo": "valsa@valsa"
     }
   ],
   "ListaCam": [
@@ -90,7 +75,7 @@
       "Matricula": "LMN987",
       "Capacidad": "50000",
       "Gasolina": "0.60",
-      "CargaActual": 50000,
+      "CargaActual": 3000,
       "Estado": "Ocupado"
     },
     {
@@ -98,23 +83,17 @@
       "Matricula": "ABC123",
       "Capacidad": "50000",
       "Gasolina": "0.60",
-      "CargaActual": 400,
+      "CargaActual": 700,
       "Estado": "Ocupado"
-    },
-    {
-      "id": "2fdc"
-    },
-    {
-      "id": "ef48"
     }
   ],
-  "Mantenimiento": [
+  "Reportes": [
     {
-      "id": "2d4f",
+      "id": "e3af",
       "camionSeleccionado": "LMN987",
-      "fechaUltimoMantenimiento": "2024-09-18",
-      "tipoMantenimiento": "Cambio de llantas",
-      "observaciones": "explotaron"
+      "estadoCarga": "incompleta -",
+      "estadoCamion": "Falta aceite, cambio de ruedas",
+      "fechaReporte": "2024-09-27"
     }
   ]
 }
